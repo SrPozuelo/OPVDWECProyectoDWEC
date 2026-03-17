@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Scroll infinito</title>
+        <style>
+            :root{
+                --color-principal: #1e5631;
+                --fuente-principal:'Poppins',sans-serif;
+            }
+            *{
+                box-sizing:border-box;
+                margin:0;
+                padding:0;
+            }
+            body{
+                #contenedor{
+                    display:grid;
+                    width:99dvw;
+                    margin-top:4dvh;
+                    grid-template-columns:15dvw;
+                    justify-content:center;
+                    gap:30px;
+                    & .Perfil{
+                        display:flex;
+                        height:30dvh;
+                        background-color:aliceblue;
+                        flex-direction:column;
+                        align-items:center;
+                        justify-content:space-evenly;
+                        & img{
+                            border:2px solid black;
+                        }
+                    }
+                }
+                & #Error{
+                    display:flex;
+                    position:absolute;
+                    width:100dvw;
+                    height:100dvh;
+                    background-color:#F7DF1E;
+                    top:0;
+                    left:0;
+                    align-items:center;
+                    justify-content:center;
+                    font-family:fantasy;
+                    font-size:4rem;
+                    font-weight:500;
+                    z-index:-1;
+                }
+                /* --- HEADER --- */
+                .cabecera-principal {
+                    background: var(--color-principal);
+                    color: white;
+                    padding: 0.6rem 0;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    font-family:var(--fuente-principal);
+                    & .contenido-cabecera{
+                        max-width: 1200px;
+                        margin: 0 auto;
+                        padding: 0 20px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        /* Logo Personalizado */
+                        & .identidad{
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            & .logo-iniciales{
+                                background-color: #ffffff;
+                                color: var(--color-principal); 
+                                width: 42px;
+                                height: 42px; 
+                                border-radius: 12px 0 12px 0;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                font-weight: 800;
+                                font-size: 1rem;
+                                letter-spacing: -0.5px;
+                                box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+                                transition: all 0.3s ease;
+                            }
+                            h1{
+                                font-size: 1.1rem;
+                                font-weight: 500;
+                                margin: 0;
+                            }
+                        }
+                        & .curso-badge {
+                            background-color:#F7DF1E;
+                            color: var(--color-principal);
+                            padding: 4px 12px;
+                            border-radius: 20px;
+                            font-size: 0.85rem;
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="cabecera-principal">
+            <div class="contenido-cabecera">
+                <div class="identidad">
+                    <div class="logo-iniciales">ÓS</div>
+                    <h1>Óscar Pozuelo Villamandos</h1>
+                </div>  
+                <div class="curso-badge">
+                    DWEC
+                </div>
+            </div>
+        </header>
+        <div id="contenedor"></div>
+        <script>
+            'use stricted'
+            async function EscribirPerfiles(cantidad){
+                if(parar){return;}
+                parar=true;
+                let perfiles=await HacerPeticion(cantidad);
+                console.log(perfiles);
+                const cuerpo=document.getElementById("contenedor");
+                let div,img,h3,email,localidad,nombre;
+                for(const perfil of perfiles){
+                    nombre=perfil.name.title+" "+perfil.name.first+" "+perfil.name.last;
+                    div=document.createElement("div");
+                    div.classList.add("Perfil");
+                    img=document.createElement("img");
+                    img.width=100;
+                    img.height=100;
+                    img.src=perfil.picture.large;
+                    img.alt=nombre;
+                    h3=document.createElement("h3");
+                    h3.textContent=nombre;
+                    email=document.createElement("p");
+                    email.textContent=perfil.email;
+                    localidad=document.createElement("p");
+                    localidad.textContent="Ciudad: "+perfil.location.city;
+                    div.appendChild(img);
+                    div.appendChild(h3);
+                    div.appendChild(email);
+                    div.appendChild(localidad);
+                    cuerpo.appendChild(div);
+                }
+                parar=false;
+            }
+            async function HacerPeticion(cantidad){
+                try{
+                    const datos=await fetch("https://randomuser.me/api/?results="+cantidad+"");
+                    if(datos.status==200){
+                        const perfiles=await datos.json();
+                        return perfiles.results;
+                    }
+                    else{
+                        throw new Error("Ocurrio un error inesperado.");
+                    }
+                }
+                catch(Error){
+                    console.error(Error);
+                    const div=document.createElement("div");
+                    div.setAttribute("id","Error");
+                    div.textContent="Algo salió mal cuando se intentaron cargar los perfiles.";
+                    document.body.appendChild(div);
+                }
+            }
+            var parar=false;
+            EscribirPerfiles(10);
+            window.addEventListener("scroll",()=>{
+                const docS=document.documentElement.scrollTop;
+                const docC=document.documentElement.clientHeight;
+                const docH=document.documentElement.scrollHeight;
+                console.log("SCROLL");
+                if(((docS+docC)>=(docH-100))&&(!parar)){
+                    EscribirPerfiles(10);
+                }
+            });
+        </script>
+    </body>
+</html>

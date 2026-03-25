@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../../webroot/css/estilos.css" rel="stylesheet" type="text/css" />
+        <title>EJERCICIO 2</title>
+    </head>
+    <body>
+        <script>
+            'use stricted'
+            function SerieDeFibonnacciIterativo(repeticiones){
+                var listado=new Array(),num1,num2,aux;
+                num1=0;
+                num2=1;
+                for(let i=0;i<repeticiones;i++){
+                    listado.push(num1);
+                    aux=num2
+                    num2=num1+num2;
+                    num1=aux;
+                }
+                return listado;
+            }
+            function SerieDeFibonnacciRecursiva(num1){
+                if(num1<=1){
+                    return num1;
+                }
+                else{
+                    return SerieDeFibonnacciRecursiva(num1-1)+SerieDeFibonnacciRecursiva(num1-2);
+                }
+            }
+            var num1,respuesta,listado=new Array();
+            do{
+                num1=prompt("Introduzca la cantidad de numeros de la serie de fibonnacci que quieres que se vean:");
+                if(num1==null){
+                    alert("No debes de pulsar el botón de cancelar.");
+                }
+                else{
+                    if(num1==""){
+                        alert("Debes introducir algún valor.");
+                    }
+                    else{
+                        if(isNaN(Number(num1))){
+                            alert("Lo que has introducido no es un numero, introdúzcalo de nuevo:");
+                        }
+                        else{
+                            if(Number(num1)<0){
+                                alert("No puedes introducir números negativos, introdúzcalo de nuevo:");
+                            }
+                            if(num1.includes(".",undefined)){
+                                alert("No puedes introducir números reales, introduzcalo de nuevo:");
+                            }
+                        }
+                    }
+                }
+            }while(isNaN(Number(num1))||(Number(num1)<0)||num1.includes(".",undefined));
+            do{
+                if(respuesta!="Iterativo"||respuesta!="Recursivo"){
+                    respuesta=prompt("¿De que forma quieres que se ejecute el ejercicio? (Debes introducir Iterativo o Recursivo.)");
+                }
+                else{
+                    respuesta=prompt("Debes introducir Iterativo o Recursivo, introdúzcalo de nuevo: ");
+                }
+            }while(respuesta!="Iterativo"&&respuesta!="Recursivo");
+            if(respuesta=="Recursivo"){
+                document.write("<h3>LA SERIE DE FIBONNACCI DE MANERA RECURSIVA:</h3>");
+                for(let i=0;i<num1;i++){
+                    listado.push(SerieDeFibonnacciRecursiva(i));
+                }
+            }
+            else{
+                document.write("<h3>LA SERIE DE FIBONNACCI DE MANERA ITERATIVA:</h3>");
+                listado.push(SerieDeFibonnacciIterativo(num1));
+            }
+            document.write("<p class='ultimo'>");
+            for(const lis in listado){
+                document.write(listado[lis]);
+                if(lis==(listado.length-2)){
+                    document.write(" y ");
+                }
+                else{
+                    if(lis!=(listado.length-1)){
+                        document.write(",");
+                    }
+                }
+            }
+            document.write(".</p>");
+        </script>
+    </body>
+</html>

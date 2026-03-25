@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EJERCICIO 6</title>
+        <link href="../../webroot/css/estilos.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <script>
+            'use stricted'
+            var intentos,pregunta,numOculto,num1,cancelar;
+            do{
+                cancelar=false;
+                intentos=0;
+                numOculto=parseInt(100*Math.random()+1);
+                for(let i=5;i>0;i--){
+                    pregunta="Introduzca un número entero entre 1 y 100";
+                    do{
+                        if(i!=1){
+                            num1=prompt(pregunta+" ("+i+" intentos restantes):");
+                        }
+                        else{
+                            num1=prompt(pregunta+ "("+i+" intento restante):");
+                        }
+                        if(num1!=null){
+                            if(num1!=""){
+                                if(!isNaN(num1)){
+                                    if(!num1.includes(".",undefined)){
+                                        if(num1<1||num1>100){
+                                            pregunta="Debes introducir un numero entero ENTRE 1 Y 100, Introdúzcalo de nuevo";
+                                        }
+                                    }
+                                    else{
+                                        pregunta="Debes introducir un numero ENTERO, Introdúzcalo de nuevo";
+                                    }
+                                }
+                                else{
+                                    pregunta="Debes introducir un NUMERO, Introdúcalo de nuevo";
+                                }
+                            }
+                            else{
+                                pregunta="Debes introducir algún valor";
+                            }
+                        }
+                        else{
+                            i=-1;
+                            alert("Se acabó la partida porque pulsaste el botón de cancelar.");
+                            cancelar=true;
+                            num1="NULL";
+                        }
+                    }while((isNaN(num1)||num1.includes(".",undefined)||num1<1||num1>100)&&i!=-1);
+                    if(!cancelar){
+                        intentos=intentos+1;
+                        if(numOculto==num1){
+                            alert("Felicidades has acertado el numero.");
+                            i=-2;
+                        }
+                        else{
+                            if(numOculto>num1){
+                                alert("El numero a adivinar es mayor que "+num1+".");
+                            }
+                            else{
+                                alert("El numero a adivinar es menor que "+num1+".");
+                            }
+                        }
+                    }
+                }
+                if(!cancelar){
+                    if(numOculto!=num1){
+                        alert("Has perdido, el numero a adivinar era "+numOculto);
+                        document.write("Se termino el juego:SÍ<br>");
+                        document.write("Número de intentos: "+intentos+"<br>");
+                        document.write("Se acerto el número:NO<br>");
+                        document.write("Número a adivinar: "+numOculto+"<br>");
+                        document.write("<p>----------------------------------------------------------</p><br>");
+                    }
+                    else{
+                        document.write("Se termino el juego:SÍ<br>");
+                        document.write("Número de intentos: "+intentos+"<br>");
+                        document.write("Se acerto el número:SÍ<br>");
+                        document.write("Número a adivinar: "+numOculto+"<br>");
+                        document.write("<p>----------------------------------------------------------</p><br>");
+                    }
+                }
+                else{
+                    if(numOculto!=num1){
+                        alert("Has perdido, el numero a adivinar era "+numOculto);
+                        document.write("Se termino el juego:NO<br>");
+                        document.write("Número de intentos: "+intentos+"<br>");
+                        document.write("Se acerto el número:NO<br>");
+                        document.write("Número a adivinar: "+numOculto+"<br>");
+                        document.write("<p>----------------------------------------------------------</p><br>");
+                    }
+                    else{
+                        document.write("Se termino el juego:NO<br>");
+                        document.write("Número de intentos: "+intentos+"<br>");
+                        document.write("Se acerto el número:SI<br>");
+                        document.write("Número a adivinar: "+numOculto+"<br>");
+                        document.write("<p>----------------------------------------------------------</p><br>");
+                    }
+                }
+            }while(confirm("¿Quieres jugar de nuevo?"));
+        </script>
+    </body>
+</html>

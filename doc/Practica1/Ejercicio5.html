@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EJERCICIO 5</title>
+        <link href="../../webroot/css/estilos.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <script>
+            'use restricted'
+            var num1,num2,acum,listado=new Array();
+            pregunta="Introduzca un número (Pulsa el botón de cancelar para finalizar):";
+            acum=0;
+            do{
+                num1=prompt(pregunta);
+                if(num1==""){
+                    alert("Debes introducir algún valor.");
+                }
+                else{
+                    if(num1!=null){
+                        if(isNaN(Number(num1))||(num1<0)||(num1.includes(".",undefined))){
+                            listado.push(num1);
+                        }
+                        else{
+                            acum=acum+Number(num1);
+                        }
+                    }
+                }
+            }while(num1!=null);
+            document.write("<p>La suma de los números introducidos es "+acum+".</p><br>");
+            document.write("Los valores introducidos incorrectamente son:<br>");
+            if(listado.length!=0){
+                for(const i in listado){
+                    if(i<9){
+                        document.write('<p class="lista">-0'+(Number(i)+1)+'  '+listado[i]+'</p><br>');
+                    }
+                    else{
+                        document.write('<p class="lista">-'+(Number(i)+1)+'  '+listado[i]+'</p><br>');
+                    }
+                }
+                document.write('<p class="ultimo"></p>')
+            }
+            else{
+                document.write("<p class='ultimo'>NO SE HA INTRODUCIDO NINGUN VALOR ERRÓNEO.");
+            }
+        </script>
+    </body>
+</html>

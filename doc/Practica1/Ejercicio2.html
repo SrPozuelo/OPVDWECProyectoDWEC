@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EJERCICIO 2</title>
+    </head>
+    <body>
+        <script>
+            'use stricted'
+            var cont=0,acum=0,max,min,num1,num2;
+            do{
+                num1=prompt("Introduzca un numero entero [0 para finalizar]:");
+                if(num1==null){
+                    alert("No debes pulsar el botón de cancelar.");
+                }
+                else{
+                    if(num1==""){
+                        alert("Debes introducir algún valor.");
+                    }
+                    else{
+                        if(isNaN(Number(num1))){
+                            alert("Lo que has introducido no es un numero, introdúzcalo de nuevo:");
+                        }
+                        else{
+                            if(num1<0){
+                                alert("No puedes introducir números negativos, introdúzcalo de nuevo:");
+                            }
+                        }
+                    }
+                }
+            }while(isNaN(num1)||(num1<0)||(num1==null)||(num1==""));
+            if(num1!=0){
+                cont=cont+1;
+            }
+            acum=Number(num1);
+            max=num1;
+            min=num1;
+            while(num1!=0){
+                do{
+                    num1=prompt("Introduzca un numero entero [0 para finalizar]:");
+                    if(num1==null){
+                        alert("No debes pulsar el botón de cancelar.");
+                    }
+                    else{
+                        if(num1==""){
+                            alert("Debes introducir algún valor.");
+                        }
+                        else{
+                            if(isNaN(Number(num1))){
+                                alert("Lo que has introducido no es un numero, introdúzcalo de nuevo:");
+                            }
+                            else{
+                                if(num1<0){
+                                    alert("No puedes introducir números negativos, introdúzcalo de nuevo:");
+                                }
+                            }
+                        }
+                    }
+                }while(isNaN(num1)||(num1<0)||(num1==null)||(num1==""));
+                if(num1!=0){
+                    cont=cont+1;
+                    acum=acum+Number(num1);
+                    if(num1>max){
+                        max=num1;
+                    }
+                    else{
+                        if(num1<min){
+                            min=num1;
+                        }
+                    }
+                }
+            }
+            document.write("<p>El valor más alto introducido es : "+max+"</p>");
+            document.write("<p>El valor más bajo introducido es : "+min+"</p>");
+            if(cont==0){
+                document.write("<p class='ultimo'>La media de los valores introducidos es : "+acum+"</p>");
+            }
+            else{
+                document.write("<p class='ultimo'>La media de los valores introducidos es : "+(acum/cont)+"</p>");
+            }
+        </script>
+    </body>
+</html>

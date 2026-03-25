@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EJERCICIO 4</title>
+    </head>
+    <body>
+        <script>
+            'use stricted'
+            var pregunta,num1,num2,includes,acumPares,acumImpares;
+            pregunta="Introduzca un número entero:";
+            do{
+                num1=prompt(pregunta);
+                includes=true;
+                if(num1==null){
+                    pregunta="No debes de pulsar el botón de cancelar.";
+                }
+                else{
+                    if(num1==""){
+                        pregunta="Debes introducir algún valor:";
+                    }
+                    else{
+                        if(isNaN(Number(num1))){
+                            pregunta="Debes introducir un numero, introdúzcalo de nuevo: ";
+                        }
+                        else{
+                            includes=num1.includes(".",undefined);
+                            if(num1.includes(".",undefined)){
+                                pregunta="No debes introducir un numero real, introdúzcalo de nuevo: ";
+                            }
+                        }
+                    }
+                }
+            }while(isNaN(Number(num1))||includes);
+            pregunta="Introduzca otro número entero:";
+            do{
+                num2=prompt(pregunta);
+                includes=true;
+                if(num2==null){
+                    pregunta="No debes de pulsar el botón de cancelar.";
+                }
+                else{
+                    if(num2==""){
+                        pregunta="Debes introducir algún valor:";
+                    }
+                    else{
+                        if(isNaN(Number(num2))){
+                            pregunta="Debes introducir un numero, introdúzcalo de nuevo: ";
+                        }
+                        else{
+                            includes=num2.includes(".",undefined);
+                            if(num2.includes(".",undefined)){
+                                pregunta="No debes introducir un numero real, introdúzcalo de nuevo: ";
+                            }
+                            else{
+                                if(Number(num2)<Number(num1)){
+                                    pregunta="El segundo numero tiene que ser mayor o igual que el primero, introdúzcalo de nuevo: ";
+                                }
+                            }
+                        }
+                    }
+                }
+            }while(isNaN(Number(num2))||includes||Number(num2)<Number(num1));
+            acumPares=0;
+            acumImpares=0;
+            num1=Number(num1);
+            num2=Number(num2);
+            for(let i=(num1+1);i<num2;i++){
+                if(i%2==0){
+                    acumPares=acumPares+i;
+                }
+                else{
+                    acumImpares=acumImpares+i;
+                }
+            }
+            document.write("Entre "+num1+" y "+num2+":<br>");
+            document.write("<p>    La suma de los números pares es "+acumPares+".<br></p>");
+            document.write("<p class='ultimo'>    La suma de los números impares es "+acumImpares+".<br></p>");
+        </script>
+    </body>
+</html>

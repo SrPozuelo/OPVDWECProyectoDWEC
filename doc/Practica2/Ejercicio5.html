@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../../webroot/css/estilos.css" rel="stylesheet" type="text/css" />
+        <title>EJERCICIO 5</title>
+    </head>
+    <body>
+        <script>
+            function invertirMapa(mapa){
+                let mapaInvertido=new Map();
+                for(const[llave,valor] of mapa){
+                    if(mapaInvertido.has(valor)){
+                        mapaInvertido.get(valor).push(llave);
+                    }
+                    else{
+                        mapaInvertido.set(valor,[llave]);
+                    }
+                }
+                console.log(mapa);
+                return mapaInvertido;
+            }
+            var mapa=new Map([
+                ["1111BCD","Seat"],
+                ["2222DEF","Audi"],
+                ["3333FGH","Mercedes"],
+                ["4444HIJ","Seat"],
+                ["5555JKL","Mercedes"],
+                ["6666LMN","Seat"]
+            ]);
+            mapa=invertirMapa(mapa);
+            console.log(mapa);
+            for(const[llave,valor] of mapa){
+                document.write("<p>CLAVE: "+llave+"</p><br><p>VALOR: "+valor.toString()+"</p><br><br>");
+            }
+            document.write("<p class='ultimo'></p>");
+        </script>
+    </body>
+</html>

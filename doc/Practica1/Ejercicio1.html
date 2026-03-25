@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EJERCICIO 1</title>
+    </head>
+    <body>
+        <script>
+            'use stricted'
+            num1=prompt("Introduzca un numero entero positivo: ");
+            while(num1==""||num1==null){
+                if(num1==null){
+                    alert("No debes pulsar el botón de cancelar.")
+                }
+                if(num1==""){
+                    alert("Debes introducir algún valor.")
+                }
+                num1=prompt("Introduzca un numero entero positivo: ");
+            }
+            if(!isNaN(Number(num1))){
+                if(num1%2==0){
+                    if(num1!=2){
+                        alert("El "+num1+" es un numero entero positivo par que no es primo.");
+                    }
+                    else{
+                        alert("El "+num1+" es un numero entero positivo par que es primo.");
+                    }
+                }
+                else{
+                    primo=true;
+                    for(let i=2;i<=(num1/2);i++){
+                        if(num1%i==0){
+                            primo=false;
+                        }
+                    }
+                    if(primo){
+                        alert("El "+num1+" es un numero entero positivo impar que es primo.");
+                    }
+                    else{
+                        alert("El "+num1+" es un numero entero positivo impar que no es primo.");
+                    }
+                }
+            }
+            else{
+                alert("Lo que has introducido no es un numero.");
+            }
+        </script>
+    </body>
+</html>

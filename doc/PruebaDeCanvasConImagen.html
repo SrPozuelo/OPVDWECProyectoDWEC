@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Filtro de color en una imagen</title>
+        <style>
+            *{
+                box-sizing:border-box;
+                margin:0;
+                padding:0;
+            }
+            body{
+                position:relative;
+                width:100dvw;
+                height:100dvh;
+                & input[type="range"]{
+                    -webkit-appearance:none;
+                    appearance:none;
+                    background:transparent;
+                    cursor:pointer;
+                    width:350px;
+                }
+                & input[type="range"]::-webkit-slider-thumb{
+                    width:6px;
+                    height:16px;
+                    background-color:darkcyan;
+                    margin-top:-4px;
+                    -webkit-appearance:none;
+                    appearance:none;
+                }
+                & #CanvasImagen{
+                    position:absolute;
+                    border:3px solid black;
+                    top:50%;
+                    left:50%;
+                    transform:translate(-50%,-50%);
+                }
+                & #Rangos{
+                    position:relative;
+                    top:43dvh;
+                    left:15dvw;
+                    & input{
+                        position:absolute;
+                    }
+                    & #AzulImagen{
+                        top:110px;
+                    }
+                    & #RojoImagen{
+                        top:10px;
+                    }
+                    & #VerdeImagen{
+                        top:60px;
+                    }
+                    & #AzulImagen::-webkit-slider-runnable-track{
+                        width:100px;
+                        height:8px;
+                        background-color:blue;
+                    }
+                    & #RojoImagen::-webkit-slider-runnable-track{
+                        width:100px;
+                        height:8px;
+                        background-color:red;
+                    }
+                    & #VerdeImagen::-webkit-slider-runnable-track{
+                        width:100px;
+                        height:8px;
+                        background-color:lime;
+                    }
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width="300" height="300" id="CanvasImagen"></canvas>
+        <div id="Rangos">
+            <input type="range" name="Rojo" id="RojoImagen" min="0.5" max="1" step="0.05">
+            <input type="range" name="Verde" id="VerdeImagen" min="0.5" max="1" step="0.05">
+            <input type="range" name="Azul" id="AzulImagen" min="0.5" max="1" step="0.05">
+        </div>
+        <script defer>
+            'use stricted'
+            function crearFiltro(){
+                const az=Azul.value;
+                const ro=Rojo.value;
+                const ve=Verde.value;
+                const nuevaImagen=new ImageData(
+                    new Uint8ClampedArray(originalPixel.data),
+                    originalPixel.width,
+                    originalPixel.height
+                );
+                const data=nuevaImagen.data;
+                // let data=ctxI.getImageData(0,0,image.width,image.height);
+                // let original=ctxI.getImageData(0,0,image.width,image.height);
+                for(let i=0;i<data.length;i=i+4){
+                    data[i]=originalPixel.data[i]*ro;
+                    data[i+1]=originalPixel.data[i+1]*ve;
+                    data[i+2]=originalPixel.data[i+2]*az;
+                }
+                ctxI.putImageData(nuevaImagen,0,0);
+            }
+            //Imagen en canvas
+                const canvasImagen=document.getElementById("CanvasImagen");
+                const ctxI=canvasImagen.getContext("2d");
+                const Azul=document.getElementById("AzulImagen");
+                const Rojo=document.getElementById("RojoImagen");
+                const Verde=document.getElementById("VerdeImagen");
+                var image=new Image();
+                let originalPixel=null;
+                image.src="images/paisaje.webp";
+                image.onload=function(){
+                    ctxI.drawImage(image,0,0);
+                    originalPixel=ctxI.getImageData(0,0,image.width,image.height);
+                }
+                Azul.addEventListener("input",()=>{
+                    crearFiltro();
+                    console.log("Azul="+Azul.value);
+                });
+                Rojo.addEventListener("input",()=>{
+                    crearFiltro();
+                    console.log("Rojo="+Rojo.value);
+                });
+                Verde.addEventListener("input",()=>{
+                    crearFiltro();
+                    console.log("Verde="+Verde.value);
+                });
+            //
+        </script>
+    </body>
+</html>

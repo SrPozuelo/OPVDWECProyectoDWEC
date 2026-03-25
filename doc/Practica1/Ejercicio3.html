@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EJERCICIO 3</title>
+    </head>
+    <body id="Cuerpo">
+        <script>
+            'use stricted'
+            var pregunta,num1,num2,contPares,numPares,texto="",includes;
+            pregunta="Introduzca un número entero:";
+            do{
+                num1=prompt(pregunta);
+                includes=true;
+                if(num1==null){
+                    pregunta="No debes de pulsar el botón de cancelar.";
+                }
+                else{
+                    if(num1==""){
+                        pregunta="Debes introducir algún valor:";
+                    }
+                    else{
+                        if(isNaN(Number(num1))||(num1.includes(".",undefined))){
+                            pregunta="Debes introducir un numero entero, introdúzcalo de nuevo: ";
+                        }
+                        includes=num1.includes(".",undefined);
+                    }
+                }
+            }while(isNaN(Number(num1))||includes);
+            pregunta="Introduzca otro número entero:";
+            do{
+                num2=prompt(pregunta);
+                includes=true;
+                if(num2==null){
+                    pregunta="No debes de pulsar el botón de cancelar.";
+                }
+                else{
+                    if(num2==""){
+                        pregunta="Debes introducir algún valor:";
+                    }
+                    else{
+                        if(isNaN(Number(num2))||(num2.includes(".",undefined))){
+                            pregunta="Debes introducir otro número entero, introdúzcalo de nuevo: ";
+                        }
+                        else{
+                            if(Number(num2)<Number(num1)){
+                                pregunta="El segundo numero tiene que ser mayor o igual que el primero, introdúzcalo de nuevo: ";
+                            }
+                        }
+                        includes=num2.includes(".",undefined);
+                    }
+                }
+            }while(isNaN(Number(num2))||(Number(num2)<Number(num1))||includes);
+            numPares=0;
+            num1=Number(num1);
+            num2=Number(num2);
+            for(let i=num1;i<=num2;i++){
+                if(i%2==0){
+                    numPares=Number(numPares)+1;
+                }
+            }
+            console.log("numPares="+numPares);
+            if(numPares!=0){
+                if(numPares>1){
+                    texto="Los números pares entre "+num1+" y "+num2+" son: [";
+                }
+                else{
+                    texto="El número par entre "+num1+" y "+num2+" es: [";
+                }
+                for(let i=num1;(i<=num2)&&(numPares!=0);i++){
+                    if(i%2==0){
+                        if((numPares==2)){
+                            texto=texto+i+" y ";
+                        }
+                        else{
+                            if(numPares==1){
+                                texto=texto+i;
+                            }
+                            else{
+                                texto=texto+i+",";
+                            }
+                        }
+                        numPares=numPares-1;
+                    }
+                }
+                texto=texto+"].";
+            }
+            else{
+                texto="No hay ningún número par entre "+num1+" y "+num2+".";
+            }
+            document.write("<p>"+texto+"</p>");
+        </script>
+    </body>
+</html>

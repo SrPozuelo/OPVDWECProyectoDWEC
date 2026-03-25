@@ -144,10 +144,6 @@
                 <input type="color" name="Color" id="Multicolor">
             </label>
         </form>
-        <canvas width="300" height="300" id="CanvasImagen"></canvas>
-        <input type="range" name="Rojo" id="RojoImagen" min=0.5 max=1 step=0.05>
-        <input type="range" name="Verde" id="VerdeImagen" min=0.5 max=1 step=0.05>
-        <input type="range" name="Azul" id="AzulImagen" min=0.5 max=1 step=0.05>
         <script defer>
             'use stricted'
             function activar(ev,dispositivo){
@@ -206,25 +202,6 @@
                     console.error(Error);
                 }
             }
-            function crearFiltro(){
-                const az=Azul.value;
-                const ro=Rojo.value;
-                const ve=Verde.value;
-                const nuevaImagen=new ImageData(
-                    new Uint8ClampedArray(originalPixel.data),
-                    originalPixel.width,
-                    originalPixel.height
-                );
-                const data=nuevaImagen.data;
-                // let data=ctxI.getImageData(0,0,image.width,image.height);
-                // let original=ctxI.getImageData(0,0,image.width,image.height);
-                for(let i=0;i<data.length;i=i+4){
-                    data[i]=originalPixel.data[i]*ro;
-                    data[i+1]=originalPixel.data[i+1]*ve;
-                    data[i+2]=originalPixel.data[i+2]*az;
-                }
-                ctxI.putImageData(nuevaImagen,0,0);
-            }
             const canvas=document.getElementById("canvas");
             const ctx=canvas.getContext("2d");
             const imagen=ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -237,32 +214,6 @@
             colores1.style.backgroundColor=colores1.value;
             console.log(colores1.value);
             var pincel=false,colorFondo="white",seleccionado="black";
-            //Imagen en canvas
-            const canvasImagen=document.getElementById("CanvasImagen");
-            const ctxI=canvasImagen.getContext("2d");
-            const Azul=document.getElementById("AzulImagen");
-            const Rojo=document.getElementById("RojoImagen");
-            const Verde=document.getElementById("VerdeImagen");
-            var image=new Image();
-            let originalPixel=null;
-            image.src="/images/paisaje.webp";
-            image.onload=function(){
-                ctxI.drawImage(image,0,0);
-                originalPixel=ctxI.getImageData(0,0,image.width,image.height);
-            }
-            Azul.addEventListener("input",()=>{
-                crearFiltro();
-                console.log("Azul="+Azul.value);
-            });
-            Rojo.addEventListener("input",()=>{
-                crearFiltro();
-                console.log("Rojo="+Rojo.value);
-            });
-            Verde.addEventListener("input",()=>{
-                crearFiltro();
-                console.log("Verde="+Verde.value);
-            });
-            //
             borrar.addEventListener("click",()=>{
                 if(pincel==false){
                     for(let i=0;i<10;i++){

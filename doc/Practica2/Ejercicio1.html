@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../../webroot/css/estilos.css" rel="stylesheet" type="text/css" />
+        <title>EJERCICIO 1</title>
+    </head>
+    <body>
+        <script>
+            'use stricted'
+            var longitud,listado=new Array(),palabra,palabraMasCorta,palabraMasLarga,opcion,primeraPalabraInsertada,ultimaPalabraInsertada;
+            do{
+                palabra=prompt("Intoduzca una palabra (Para terminar pulse el botón de cancelar):");
+                if(palabra==""){
+                    alert("Debes introducir algún valor.");
+                }
+                else{
+                    if(palabra!=null){
+                        if(isNaN(Number(palabra))){
+                            listado.push(palabra);
+                        }
+                        else{
+                            alert("Debes introducir una cadena de texto.");
+                        }
+                    }
+                }
+            }while(palabra!=null);
+            longitud=listado.length;
+            primeraPalabraInsertada=listado[0];
+            ultimaPalabraInsertada=listado[(listado.length-1)];
+            do{
+                opcion=prompt("Introduzca una opción (Un valor desde 'a' hasta 'i' (Introducir la 'i' hara que finalice)): ");
+                switch(opcion){
+                    case "a":
+                        if(longitud!=0){
+                            alert("La primera palabra insertada es "+primeraPalabraInsertada+".");
+                        }
+                        else{
+                            alert("No hay ninguna palabra que sea la primera en ser insertada.");
+                        }
+                    break;
+                    case "b":
+                        if(longitud!=0){
+                            alert("La última palabra insertada es "+ultimaPalabraInsertada+".")
+                        }
+                        else{
+                            alert("No hay ninguna palabra que sea la última en ser insertada.");
+                        }
+                    break;
+                    case "c":
+                        if(longitud!=0){
+                            alert("Las palabras introducidas son "+listado.toString()+".");
+                        }
+                        else{
+                            alert("No has introducido ninguna palabra.");
+                        }
+                    break;
+                    case "d":
+                        //listado.sort((a,b)=>b.length-a.length);
+                        if(longitud!=0){
+                            palabraMasLarga=listado[0];
+                            for (const palabra in listado){
+                                if(listado[palabra].length>palabraMasLarga.length){
+                                    palabraMasLarga=listado[palabra];
+                                }
+                            }
+                            alert("La palabra más larga introducida es "+palabraMasLarga+".");
+                        }
+                        else{
+                            alert("No hay ninguna palabra que sea la más larga.");
+                        }
+                    break;
+                    case "e":
+                        //listado.sort((a,b)=>a.length-b.length);
+                        if(longitud!=0){
+                            palabraMasCorta=listado[0];
+                            for(const palabra in listado){
+                                if(listado[palabra].length<palabraMasCorta.length){
+                                    palabraMasCorta=listado[palabra];
+                                }
+                            }
+                            alert("La palabra más corta introducida es "+palabraMasCorta+".");
+                        }
+                        else{
+                            alert("No hay ninguna palabra que sea la más corta.");
+                        }
+                    break;
+                    case "f":
+                        if(longitud!=1){
+                            alert("Insertaste "+longitud+" palabras.");
+                        }
+                        else{
+                            alert("Insertaste "+longitud+" palabra.");
+                        }
+                    break;
+                    case "g":
+                        do{
+                            palabra=prompt("Introduzca la palabra que quieres buscar: ");
+                            if(palabra==""){
+                                alert("Debes introducir algún valor.");
+                            }
+                            else{
+                                if(palabra!=null){
+                                    if(!isNaN(Number(palabra))){
+                                        alert("No debes introducir ningún tipo de número.");
+                                    }
+                                }
+                                else{
+                                    alert("No debes pulsar el botón de cancelar.");
+                                }
+                            }
+                        }while(palabra==null||!isNaN(palabra)||palabra=="");
+                        esta=false;
+                        posicion=-1;
+                        for(const palabras in listado){
+                            if(listado[palabras]==palabra){
+                                esta=true;
+                                posicion=palabras;
+                            }
+                        }
+                        if(esta){
+                            alert("La palabra "+palabra+" está en la lista en la posicion "+(Number(posicion)+1)+".");
+                        }
+                        else{
+                            alert("La palabra "+palabra+" no está en la lista.");
+                        }
+                    break;
+                    case "h":
+                        for(const palabra1 in listado){
+                            for(const palabra2 in listado){
+                                if((listado[palabra1]==listado[palabra2])&&(palabra1!=palabra2)){
+                                    listado.splice(palabra2,1);
+                                }
+                            }
+                        }
+                    break;
+                    case "i":break;
+                    default:
+                        if(opcion==null){
+                            alert("El botón de cancelar no es una opción valida.");
+                        }
+                        else{
+                            if(opcion==""){
+                                alert("Debes introducir algún valor.");
+                            }
+                            else{
+                                alert(opcion+" no es una opcion valida.");
+                            }
+                        }
+                    break;
+                }
+            }while(opcion!="i")
+        </script>
+    </body>
+</html>

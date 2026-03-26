@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PRACTICA DE CANVAS</title>
+        <style>
+            *{
+                box-sizing:border-box;
+                margin:0;
+                padding:0;
+            }
+            body{
+                position:relative;
+                width:100dvw;
+                height:100dvh;
+                & canvas{
+                    position:absolute;
+                    border:3px solid black;
+                    top:90px;
+                    left:50%;
+                    transform:translate(-50%);
+                    cursor:crosshair;
+                }
+                & form{
+                    display:grid;
+                    position:absolute;
+                    width:606px;
+                    height:90px;
+                    background-color:silver;
+                    padding-top:10px;
+                    padding-left:10px;
+                    padding-bottom:10px;
+                    top:0;
+                    left:50%;
+                    transform:translate(-50%);
+                    gap:10px;
+                    grid-template-columns:repeat(11,30px);
+                    grid-template-rows:repeat(10,30px);
+                    & label{
+                        display:block;
+                        flex:0 0 30px;
+                        height:30px; 
+                        border:3px solid black;
+                    }
+                    & input{
+                        display:none;
+                    }
+                    
+                }
+                & #Borrar{
+                    display:block;
+                    position:absolute;
+                    width:70px;
+                    height:30px;
+                    background-color:cyan;
+                    top:10px;
+                    left:80%;
+                }
+                & #Fondo{
+                    display:block;
+                    position:absolute;
+                    width:70px;
+                    height:30px;
+                    background-color:cyan;
+                    top:50px;
+                    left:80%;
+                }
+                & #Borrar:hover, & #Fondo:hover{
+                    background-color:blue;
+                    color:yellow;
+                    cursor:pointer;
+                }
+                & #Multicolor{
+                    display:block;
+                    position:absolute;
+                    width:30px;
+                    height:30px;
+                    top:-3px;
+                    left:-3px;
+                    z-index:-1;
+                }
+                & #CanvasImagen{
+                    position:absolute;
+                    top:0;
+                    left:90%;
+                }
+            }
+            .Multicolor{
+                position:relative;
+                border-image:linear-gradient(45deg,grey,brown,red,orange,yellow,green,blue) 3;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width="600px" height="600px" id="canvas"></canvas>
+        <form action="Formulario">
+            <input type="radio" name="Colores" id="Azul">
+            <label for="Azul" id="blue"></label>
+            <input type="radio" name="Colores" id="AzulClaro">
+            <label for="AzulClaro" id="lightblue"></label>
+            <input type="radio" name="Colores" id="AzulCian">
+            <label for="AzulCian" id="cyan"></label>
+            <input type="radio" name="Colores" id="AzulOscuro">
+            <label for="AzulOscuro" id="darkblue"></label>
+            <input type="radio" name="Colores" id="Rojo">
+            <label for="Rojo" id="red"></label>
+            <input type="radio" name="Colores" id="RojoOscuro">
+            <label for="RojoOscuro" id="darkred"></label>
+            <input type="radio" name="Colores" id="Verde">
+            <label for="Verde" id="green"></label>
+            <input type="radio" name="Colores" id="VerdeClaro">
+            <label for="VerdeClaro" id="lightgreen"></label>
+            <input type="radio" name="Colores" id="VerdeAmarillo">
+            <label for="VerdeAmarillo" id="greenyellow"></label>
+            <input type="radio" name="Colores" id="VerdeLima">
+            <label for="VerdeLima" id="lime"></label>
+            <input type="radio" name="Colores" id="VerdeOscuro">
+            <label for="VerdeOscuro" id="darkgreen"></label>
+            <input type="radio" name="Colores" id="AmarilloVerde">
+            <label for="AmarilloVerde" id="yellowgreen"></label>
+            <input type="radio" name="Colores" id="AmarilloClaro">
+            <label for="AmarilloClaro" id="lightyellow"></label>
+            <input type="radio" name="Colores" id="Amarillo">
+            <label for="Amarillo" id="yellow"></label>
+            <input type="radio" name="Colores" id="Naranja">
+            <label for="Naranja" id="orange"></label>
+            <input type="radio" name="Colores" id="Marron">
+            <label for="Marron" id="brown"></label>
+            <input type="radio" name="Colores" id="Negro" checked>
+            <label for="Negro" id="black"></label>
+            <input type="radio" name="Colores" id="Gris">
+            <label for="Gris" id="grey"></label>
+            <input type="radio" name="Colores" id="Blanco">
+            <label for="Blanco" id="white"></label>
+            <input type="radio" name="Colores" id="Morado">
+            <label for="Morado" id="purple"></label>
+            <input type="radio" name="Colores" id="Rosa">
+            <label for="Rosa" id="pink"></label>
+            <input type="button" name="Borrar" id="Borrar" value="BORRAR">
+            <input type="button" name="Fondo" id="Fondo" value="FONDO">
+            <label for="Multicolor" id="#000000" class="Multicolor">
+                <input type="color" name="Color" id="Multicolor">
+            </label>
+        </form>
+        <script defer>
+            'use stricted'
+            function activar(ev,dispositivo){
+                if(pincel==false){
+                    console.log("Pincel activado.");
+                    pincel=true;
+                    ctx.beginPath();
+                    if(dispositivo="ordenador"){
+                        ctx.moveTo(ev.offsetX,ev.offsetY);
+                    }
+                    else if(dispositivo="movil"){
+                        ctx.moveTo(ev.clientX,ev.clientY);
+                    }
+                    else{
+                        throw new Error("Dispositivo incorrecto");
+                    }
+                }
+            }
+            function desactivar(ev){
+                if(pincel==true){
+                    console.log("Pincel desactivado.");
+                    pincel=false;
+                }
+            }
+            function pintar(ev,dispositivo){
+                if(pincel==true){
+                    if(dispositivo="ordenador"){
+                        ctx.lineTo(ev.offsetX,ev.offsetY);
+                    }
+                    else if(dispositivo="movil"){
+                        ctx.lineTo(ev.clientX,ev.clientY);
+                    }
+                    else{
+                        throw new Error("Dispositivo incorrecto");
+                    }
+                    ctx.stroke();
+                }
+            }
+            HexARgb("#FFFFFF")
+            function HexARgb(hexadecimal){
+                let R,G,B;
+                try{
+                    if(hexadecimal.length!=7&&hexadecimal.length!=4){
+                        throw new Error("La longitud del color es incorrecta.");
+                    }
+                    hexadecimal=hexadecimal.replace("#","");
+                    if(hexadecimal.length==3){
+                        hexadecimal=hexadecimal.split("").map(char=>char+char).join("");
+                    }
+                    R=parseInt(hexadecimal.substring(0,2),16);
+                    G=parseInt(hexadecimal.substring(2,4),16);
+                    B=parseInt(hexadecimal.substring(4,6),16);
+                    return "rgba("+R+","+G+","+B+")";
+                }
+                catch(Error){
+                    console.error(Error);
+                }
+            }
+            const canvas=document.getElementById("canvas");
+            const ctx=canvas.getContext("2d");
+            const imagen=ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imagen.data;
+            const colores=document.getElementsByTagName("label");
+            const borrar=document.getElementById("Borrar");
+            const fondo=document.getElementById("Fondo");
+            const colores1=document.getElementById("Multicolor");
+            const col1=document.getElementById(colores1.value);
+            colores1.style.backgroundColor=colores1.value;
+            console.log(colores1.value);
+            var pincel=false,colorFondo="white",seleccionado="black";
+            borrar.addEventListener("click",()=>{
+                if(pincel==false){
+                    for(let i=0;i<10;i++){
+                        ctx.fillStyle="white";
+                        ctx.rect(0,0,600,600);
+                        ctx.fill();
+                    }
+                }
+            });
+            fondo.addEventListener("click",()=>{
+                for(let i=0;i<pixels.length;i=i+4){
+                    pixels[(i+3)]=0;
+                }
+            });
+            colores1.addEventListener("input",(ev)=>{
+                col1.setAttribute("id",colores1.value);
+                col1.style.backgroundColor=colores1.value;
+                ctx.strokeStyle=col1.getAttribute("id");
+                console.warn("INPUT.");
+            });
+            canvas.addEventListener("mousedown",(ev)=>{activar(ev,"ordenador");});
+            canvas.addEventListener("touchstart",(ev)=>{activar(ev,"movil"); ev.preventDefault();});
+            canvas.addEventListener("mouseup",(ev)=>{desactivar(ev,"ordenador")});
+            canvas.addEventListener("touchend",(ev)=>{desactivar(ev,"movil")});
+            canvas.addEventListener("mousemove",(ev)=>{pintar(ev,"ordenador");});
+            canvas.addEventListener("touchmove",(ev)=>{pintar(ev,"movil");});
+            for(let i=0;i<colores.length;i++){
+                if(colores[i].getAttribute("id")=="black"){
+                    colores[i].style.border="3px solid gold";
+                }
+                colores[i].style.backgroundColor=colores[i].getAttribute("id");
+                colores[i].addEventListener("click",(ev)=>{
+                    seleccionado=colores[i].getAttribute("id");
+                    for(let j=0;j<colores.length;j++){
+                        if(colores[j].getAttribute("class")=="Multicolor"){
+                            colores[j].style.borderImage="linear-gradient(45deg,grey,brown,red,orange,yellow,green,blue) 1"
+                        }
+                        else{
+                            colores[j].style.border="3px solid rgba(50,50,50,0.7)";
+                        }
+                    }
+                    if(colores[i].getAttribute("class")=="Multicolor"){
+                        col1.style.borderImage="linear-gradient(45deg,gold) 3";
+                    }
+                    else{
+                        ev.target.style.border="3px solid gold";
+                    }
+                    console.warn("CLICK.");
+                    ctx.strokeStyle=ev.target.getAttribute("id");
+                });
+            }
+        </script>
+    </body>
+</html>

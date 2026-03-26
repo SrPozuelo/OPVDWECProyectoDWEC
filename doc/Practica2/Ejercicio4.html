@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../../webroot/css/estilos.css" rel="stylesheet" type="text/css" />
+        <title>EJERCICIO 4</title>
+    </head>
+    <body>
+        <script>
+            function esAleatorio(){
+                const repeticiones=10000;
+                var valor,num1,cantidad,cont=new Map();
+                cont.set(1,0);
+                cont.set(2,0);
+                cont.set(3,0);
+                cont.set(4,0);
+                cont.set(5,0);
+                cont.set(6,0);
+                cont.set(7,0);
+                cont.set(8,0);
+                cont.set(9,0);
+                cont.set(10,0);
+                for(let i=0;i<repeticiones;i++){
+                    num1=parseInt(Math.random()*10+1);
+                    cantidad=cont.get(num1)+1;
+                    cont.set(num1,cantidad);
+                }
+                for(let i=1;i<=10;i++){
+                    if(cont.get(i)<1000){
+                        cont.set(i,"0".concat(cont.get(i).toString()));
+                    }
+                    valor=i;
+                    if(i<10){
+                        valor="0".concat(i.toString());
+                    }
+                    document.write("<p>El "+valor+" apareció  "+cont.get(i)+" veces.</p>");
+                }
+            }
+            esAleatorio();
+        </script>
+    </body>
+</html>

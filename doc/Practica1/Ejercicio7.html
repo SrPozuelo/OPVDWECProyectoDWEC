@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../../webroot/css/estilos.css" rel="stylesheet" type="text/css" />
+        <title>EJERCICIO 7</title>
+        <style>
+            table{
+                margin-top:70px;
+                margin-bottom:50px;
+                border-collapse:collapse;
+                thead>tr>th{
+                    background-color:white;
+                    border:1px solid black;
+                    text-align:center;
+                    padding:5px;
+                }
+                tbody>tr>td{
+                    background-color:white;
+                    border:1px solid black;
+                    text-align:center;
+                    padding:5px;
+                }
+            }
+            .gris{
+                background-color:lightgrey;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="cabecera-principal">
+            <div class="contenido-cabecera">
+                <div class="identidad">
+                    <div class="logo-iniciales">ÓS</div>
+                    <h1>Óscar Pozuelo Villamandos</h1>
+                </div>  
+                <div class="curso-badge">
+                    DWEC
+                </div>
+            </div>
+        </header>
+        <script>
+            'use stricted'
+            document.write("<table>");
+                document.write("<thead>");
+                    document.write("<tr>")
+                        for(let i=0;i<20;i++){
+                            if(i%2==0){
+                                document.write("<th>NÚMERO</th>")
+                            }
+                            else{
+                                document.write("<th>VALOR UNICODE</th>");
+                            }
+                        }
+                    document.write("</tr>");
+                document.write("</thead>");
+                document.write("<tbody>");
+                    for(let i=0;i<1000;i++){
+                        document.write("<tr>");
+                            for(let j=0;j<20;j++){
+                                valor=Number(i*10+j);
+                                if(i%2==0){
+                                    document.write("<td>"+valor+"</td>");
+                                    
+                                }
+                                else{
+                                    document.write("<td class='gris'>"+String.fromCharCode(valor)+"</td>");
+                                }
+                            }
+                        document.write("</tr>");
+                    }
+                document.write("</tbody>");
+            document.write("</table class='ultimo'>");
+        </script>
+        <footer class="pie-pagina">
+            <div class="contenido-footer">
+                <div class="texto-legal">
+                    <p>2025-26 IES LOS SAUCES. ©Todos los derechos reservados.</p>
+                    <p class="autor"><a href="https://oscarpozvil.ieslossauces.es">Óscar Pozuelo Villamandos.</a> Fecha de Actualización: 23-02-2026</p>
+                </div>
+                <div class="iconos-footer">
+                    <a href="https://github.com/SrPozuelo/OPVDWECProyectoDWEC" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="../indexProyectoDWEC.html" title="Inicio"><i class="fa-solid fa-house"></i></a> 
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

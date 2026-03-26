@@ -159,6 +159,10 @@ body {
     flex: 1;
 }
 .titulo-pagina {
+    position:absolute;
+    top:13dvh;
+    left:50%;
+    transform:translate(-50%);
     text-align: center;
     font-size: 1.4rem;
     color: #444;
@@ -168,8 +172,6 @@ body {
     border-bottom: 2px solid #ddd;
     padding-bottom: 10px;
     display: table;
-    margin-left: auto;
-    margin-right: auto;
 }
 /* --- SECCIÓN DESTACADA (APP FINAL - ESTILO AZURE) --- */
 .seccion-destacada {
@@ -326,19 +328,94 @@ body {
         margin-top: 5px;
     }
 }
+.tarjeta-tema{
+    cursor: default !important;      
+    transform: none !important;      
+    transition: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+    border: 1px solid #f0f0f0 !important; 
+}
+.tarjeta-tema:hover{
+    transform: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+    border-color: #f0f0f0 !important;
+}
+.nombre-tema{
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    text-align:center;
+}
+.lista-ejercicios{
+    list-style: none !important;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+.lista-ejercicios li{
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+.lista-ejercicios a{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    background-color: #f8fafc;  
+    border: 1px solid #e2e8f0;  
+    border-radius: 8px;         
+    padding: 10px 14px;         
+    margin-bottom: 8px;        
+    width: 90%;
+    
+    text-decoration: none !important;
+    color: #475569;            
+    font-size: 0.9rem;
+    font-weight: 500;
+    
+    transition: all 0.2s ease;
+    cursor: pointer;
+    margin-left:5%;
+}
+.lista-ejercicios a:hover{
+    background-color: #ffffff;  
+    border-color: #777BB4;     
+    color: #777BB4;            
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(119, 123, 180, 0.15);
+}
+.lista-ejercicios i{
+    color: #777BB4;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+.lista-ejercicios a:hover i{
+    transform: scale(1.1);
+}
+.sin-enlace{
+    display: block;
+    color: #94a3b8;
+    padding: 8px;
+    font-size: 0.85rem;
+    font-style: italic;
+    border: 1px dashed #e2e8f0;
+    border-radius: 8px;
+}
 /* --- GRID --- */
 .rejilla-tarjetas {
     display: grid;
-    position:absolute;
-    left:50%;
-    transform:translate(-50%);
-    grid-template-columns: repeat(1,minmax(230px,1fr));
+    position:relative;
+    transform:translate(-37%);
+    grid-template-columns: repeat(6,minmax(290px,1fr));
     gap: 1.5rem;
     width:50dvw;
 }
 /* --- TARJETAS INTERACTIVAS --- */
 .tarjeta {
-    height:16vh;
     background: var(--color-blanco);
     border-radius: var(--borde-radio);
     overflow: hidden;
@@ -351,6 +428,15 @@ body {
     cursor: pointer; 
     position: relative;
     border: 1px solid transparent;
+    & .tarjeta-contenido {
+        padding: 1.2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+        height:100%;
+        width:100%;
+    }
     & .nombre{
         position:absolute;
         top:75%;
@@ -405,15 +491,6 @@ body {
 .fondo-hoja { background-color: #4CAF50; } 
 .fondo-digital { background-color: #00BCD4; } 
 .fondo-bloqueado{background-color:lightgray};
-.tarjeta-contenido {
-    padding: 1.2rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height:100%;
-    width:100%;
-}
 .siglas {
     display: block;
     position:absolute;

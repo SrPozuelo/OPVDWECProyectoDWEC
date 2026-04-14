@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="../../webroot/css/fonts.css">
+        <link rel="stylesheet" href="../../webroot/css/all.min.css">
+        <link rel="stylesheet" href="../../webroot/css/estilos.css">
+        <title>Null</title>
+        <style>
+            *{
+                box-sizing:border-box;
+                margin:0;
+                padding:0;
+            }
+            body{
+                & nav{
+                    display:flex;
+                    width:100dvw;
+                    height:4vh;
+                    margin-top:10dvh;
+                    align-items:center;
+                    justify-content:center;
+                    gap:5dvw;
+                    & input{
+                        width:10%;
+                        height:100%;
+                        background-color:#F7DF1E;
+                        border-radius:10px;
+                        font-weight:900;
+                    }
+                    & input:hover{
+                        cursor:pointer;
+                    }
+                }
+                & #Imagen{
+                    position:absolute;
+                    width:100dvw;
+                    height:75dvh;
+                    bottom:0;
+                }
+            }
+        </style>
+    </head>
+    <body id="Cuerpo">
+        <header class="cabecera-principal">
+            <div class="contenido-cabecera">
+                <div class="identidad">
+                    <div class="logo-iniciales">ÓS</div>
+                    <h1>Óscar Pozuelo Villamandos</h1>
+                </div>  
+                <div class="curso-badge">
+                    DWEC
+                </div>
+            </div>
+        </header>
+        <nav>
+            <input type="button" value="ARRAYS" id="Arrays">
+            <input type="button" value="CONJUNTOS" id="Conjuntos">
+            <input type="button" value="MAPAS" id="Mapas">
+        </nav>
+        <div id="Imagen">
+            
+        </div>
+        <footer class="pie-pagina">
+            <div class="contenido-footer">
+                <div class="texto-legal">
+                    <p>2025-26 IES LOS SAUCES. ©Todos los derechos reservados.</p>
+                    <p class="autor"><a href="https://oscarpozvil.ieslossauces.es">Óscar Pozuelo Villamandos.</a> Fecha de Actualización: 23-02-2026</p>
+                </div>
+                <div class="iconos-footer">
+                    <a href="https://github.com/SrPozuelo/OPVDWECProyectoDWEC" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="../../indexProyectoDWEC.html" title="Inicio"><i class="fa-solid fa-house"></i></a> 
+                </div>
+            </div>
+        </footer>
+        <script>
+            function PeticionDeDatos(pregunta){
+                const Cuerpo=document.getElementById("Cuerpo");
+                const div=document.createElement("div");
+                let input=document.createElement("input");
+                div.textContent=pregunta;
+                input.setAttribute("type","text");
+                div.appendChild(input);
+                input=document.createElement("input");
+                input.setAttribute("type","button");
+                input.setAttribute("value","CONTINUAR");
+                div.appendChild(input);
+                Cuerpo.appendChild(div);
+            }
+            const Arrays=document.getElementById("Arrays");
+            const Conjuntos=document.getElementById("Conjuntos");
+            const Mapas=document.getElementById("Mapas");
+            var boton=true;
+            let Arrai=new Array();
+            let Conjunto=new Set();
+            let Mapa=new Map();
+            Arrays.addEventListener("click",()=>{
+                if(boton){
+                    boton=false;
+                    PeticionDeDatos("Introduzca el primer valor del Array:");
+                }
+            });
+            Conjuntos.addEventListener("click",()=>{
+                if(boton){
+                    boton=false;
+                }
+            });
+            Mapas.addEventListener("click",()=>{
+                if(boton){
+                    boton=false;
+                }
+            });
+        </script>
+    </body>
+</html>

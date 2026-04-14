@@ -160,7 +160,7 @@ body {
 }
 .titulo-pagina {
     position:absolute;
-    top:13dvh;
+    top:7.75dvh;
     left:50%;
     transform:translate(-50%);
     text-align: center;

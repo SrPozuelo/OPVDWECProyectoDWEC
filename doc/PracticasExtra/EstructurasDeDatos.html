@@ -40,9 +40,80 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 }
                 & #Imagen{
                     position:absolute;
-                    width:100dvw;
-                    height:75dvh;
-                    bottom:0;
+                    width: 70dvw;
+                    height:65dvh;
+                    left:50%;
+                    bottom:13dvh;
+                    border:2px solid black;
+                    border-radius:10px;
+                    transform:translate(-50%,0%);
+                    & table{
+                        position:absolute;
+                        width:90%;
+                        height:15%;
+                        border-collapse:collapse;
+                        top:50%;
+                        left:50%;
+                        transform:translate(-50%,-50%);
+                        font-size:1.3rem;
+                        & tbody{
+                            & tr{
+                                & td, & th {
+                                    border:1px solid black;
+                                    text-align:center;
+                                }
+                            }
+                        }
+                    }
+                }
+                & #Pregunta{
+                    position:absolute;
+                    width:20dvw;
+                    height:20dvh;
+                    background-color:#F7DF1E;
+                    border:1px solid black;
+                    padding-top:20px;
+                    top:50%;
+                    left:50%;
+                    border-radius:10px;
+                    text-align:center;
+                    font-weight:700;
+                    font-size:1.3rem;
+                    transform:translate(-50%,-50%);
+                    & #Datos{
+                        position:absolute;
+                        width:80%;
+                        height:18%;
+                        top:40%;
+                        left:50%;
+                        border-radius:10px;
+                        font-size:1.2rem;
+                        transform:translate(-50%,-50%);
+                    }
+                    & #Continuar{
+                        position:absolute;
+                        width:60%;
+                        height:18%;
+                        background-color:lime;
+                        top:75%;
+                        left:50%;
+                        border-radius:10px;
+                        transform:translate(-50%,0%);
+                    }
+                    & #Error{
+                        position:absolute;
+                        width:100%;
+                        color:red;
+                        top:55%;
+                        left:50%;
+                        transform:translate(-50%,0%);
+                    }
+                }
+                .Invisible{
+                    display:none;
+                }
+                .Visible{
+                    display:block;
                 }
             }
         </style>
@@ -64,8 +135,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <input type="button" value="CONJUNTOS" id="Conjuntos">
             <input type="button" value="MAPAS" id="Mapas">
         </nav>
-        <div id="Imagen">
-            
+        <div id="Imagen" class="Invisible">
+            <table>
+                <tbody>
+                    <tr id="trPosicion">
+                        <th>POSICIÓN</th>
+                    </tr>
+                    <tr id="trValor">
+                        <th>VALOR</th>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <footer class="pie-pagina">
             <div class="contenido-footer">
@@ -80,30 +160,73 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </footer>
         <script>
-            function PeticionDeDatos(pregunta){
+            function DibujarArray(){
+                const trPosicion=document.getElementById("trPosicion");
+                const trValor=document.getElementById("trValor");
+                let posicion;
+                for(let i=0;i<Arrai.length;i++){
+                    posicion=document.createElement("td");
+                    posicion.textContent=i;
+                    trPosicion.appendChild(posicion);
+                }
+                for(let i=0;i<Arrai.length;i++){
+                    posicion=document.createElement("td");
+                    posicion.textContent=Arrai[i];
+                    trValor.appendChild(posicion);
+                }
+            }
+            function PeticionDeDatos(pregunta,estructura){
                 const Cuerpo=document.getElementById("Cuerpo");
                 const div=document.createElement("div");
                 let input=document.createElement("input");
                 div.textContent=pregunta;
+                div.setAttribute("id","Pregunta");
                 input.setAttribute("type","text");
+                input.setAttribute("id","Datos");
                 div.appendChild(input);
                 input=document.createElement("input");
                 input.setAttribute("type","button");
                 input.setAttribute("value","CONTINUAR");
+                input.setAttribute("id","Continuar");
+                input.addEventListener("click",()=>{
+                    if((document.getElementById("Datos").value)==""){
+                        if(document.getElementById("Error")!=null){
+                            Cuerpo.removeChild(input);
+                        }
+                        input=document.createElement("p");
+                        input.setAttribute("id","Error");
+                        input.textContent="No debes dejar el campo vacio.";
+                        div.appendChild(input);                 
+                    }
+                    else{
+                        switch(estructura){
+                            case "Array":
+                                Arrai.push(document.getElementById("Datos").value);
+                                Cuerpo.removeChild(div);
+                                Imagen.setAttribute("class","Visible");
+                                DibujarArray();
+                            break;
+                            case "Conjunto":break;
+                            case "Mapa":break;
+                        }
+                    }
+                });
                 div.appendChild(input);
                 Cuerpo.appendChild(div);
             }
             const Arrays=document.getElementById("Arrays");
             const Conjuntos=document.getElementById("Conjuntos");
             const Mapas=document.getElementById("Mapas");
+            const Imagen=document.getElementById("Imagen");
             var boton=true;
-            let Arrai=new Array();
-            let Conjunto=new Set();
-            let Mapa=new Map();
+            var Arrai=new Array();
+            var Conjunto=new Set();
+            var Mapa=new Map();
             Arrays.addEventListener("click",()=>{
                 if(boton){
                     boton=false;
-                    PeticionDeDatos("Introduzca el primer valor del Array:");
+                    PeticionDeDatos("Introduzca el primer valor del Array:","Array");
+                    console.log(Arrai);
                 }
             });
             Conjuntos.addEventListener("click",()=>{

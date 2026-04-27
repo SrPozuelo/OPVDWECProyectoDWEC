@@ -97,8 +97,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     left:50%;
                     bottom:44dvh;
                     border:2px solid black;
+                    padding:10px;
                     border-radius:10px;
                     transform:translate(-50%,0%);
+                    font-family:Verdana,Geneva,Tahoma,sans-serif;
                 }
                 & #Pregunta{
                     position:absolute;
@@ -145,15 +147,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 }
                 #tablaBotones{
                     position:absolute;
-                    width:50dvw;
+                    width:60dvw;
                     height:30dvh;
                     top:57%;
                     left:50%;
                     transform:translate(-50%,0%);
                     & #Botones{
-                        width:50dvw;
+                        width:60dvw;
+                        & tr td:nth-of-type(2){
+                            width:15%;
+                        }
+                        & tr td:nth-of-type(3){
+                            gap:10px
+                        }
                         & input{
                             height:100%;
+                            margin-right:2px;
                             border-radius:10px;
                         }
                         & .Obligatorio{
@@ -163,12 +172,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             background-color:white;
                         }
                         & .Error{
-                            display:flex;
                             width:30%;
                             color:red;
-                            background-color:green;
-                            align-items:center;
-                            justify-content:left;
                         }
                     }
                 }
@@ -242,15 +247,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     input.value="";
                 }
             }
+            function BorrarError(metodo){
+                const Err=document.getElementsByClassName(metodo)[0];
+                const span=document.getElementById(("span"+metodo));
+                if(span!=null){
+                    Err.removeChild(span);
+                }
+                
+            }
+            function AgregarSalida(texto){
+                const Sal=document.getElementById("Salida");
+                texto=document.createTextNode(texto);
+                Sal.appendChild(texto);
+                Sal.appendChild(document.createElement("br"));
+            }
+            function AgregarError(metodo,mensaje){
+                const Err=document.getElementsByClassName(metodo)[0];
+                const span=document.createElement("span");
+                span.setAttribute("id","span"+metodo);
+                span.textContent=mensaje;
+                Err.appendChild(span);
+            }
             function accionPush(){
-                inputs=document.getElementsByName("PUSH")[0].value;
+                const inputs=document.getElementsByName("PUSH")[0].value;
                 let correcto=true,mensaje;
+                BorrarError("PUSH");
                 if(inputs=="" && correcto){
                     correcto=false;
                     mensaje="No debes dejar los campos en amarillo vacios.";
                 }
                 if(!correcto){
-
+                    AgregarError("PUSH",mensaje);
                 }
                 else{
                     Arrai.push(inputs);
@@ -259,21 +286,63 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 }
             }
             function accionPop(){
-                Arrai.pop();
-                DibujarArray();
+                let correcto=true,mensaje;
+                BorrarError("POP");
+                if(Arrai.length==0 && correcto){
+                    mensaje="No se puede eliminar más elementos del array.";
+                    correcto=false;
+                }
+                if(!correcto){
+                    AgregarError("POP",mensaje);
+                }
+                else{
+                    AgregarSalida("[POP]-Se eliminó el elemento "+Arrai[(Arrai.length-1)]+".");
+                    Arrai.pop();
+                    DibujarArray();
+                }
             }
             function accionShift(){
-                Arrai.shift();
-                DibujarArray();
+                let correcto=true,mensaje;
+                BorrarError("SHIFT");
+                if(Arrai.length==0 && correcto){
+                    mensaje="No se puede eliminar más elementos del array.";
+                    correcto=false;
+                }
+                if(!correcto){
+                    AgregarError("SHIFT",mensaje);
+                }
+                else{
+                    AgregarSalida("[SHIFT]-Se eliminó el elemento "+Arrai[0]+".");
+                    Arrai.shift();
+                    DibujarArray();
+                }
             }
             function accionUnshift(){
                 inputs=document.getElementsByName("UNSHIFT")[0].value;
-                Arrai.unshift(inputs);
-                DibujarArray();
-                BorrarInput("UNSHIFT");
+                let correcto=true,mensaje;
+                BorrarError("UNSHIFT");
+                if(inputs=="" && correcto){
+                    correcto=false;
+                    mensaje="No debes dejar los campos en amarillo vacios.";
+                }
+                if(!correcto){
+                    AgregarError("UNSHIFT",mensaje);
+                }
+                else{
+                    Arrai.unshift(inputs);
+                    DibujarArray();
+                    BorrarInput("UNSHIFT");
+                }
             }
-            function accionIncludes(){}
-            function accionReverse(){}
+            function accionIncludes(){
+                inputs=document.getElementsByName("INCLUDES")[0].value;
+                let correcto=true;
+                BorrarError("INCLUDES");
+            }
+            function accionReverse(){
+                Arrai.reverse();
+                DibujarArray();
+            }
             function accionSlice(){}
             function accionSplice(){}
             function DibujarArray(){
@@ -345,19 +414,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                     bot.setAttribute("id",metodo[0]);
                                     bot.textContent=metodo[0];
                                     bot.setAttribute("class","Boton");
-                                    td.setAttribute("class","Error");
+                                    td.setAttribute("class","Error "+metodo[0]);
                                     tr.appendChild(td);
                                     td=document.createElement("td");
                                     td.appendChild(bot);
                                     tr.appendChild(td);
+                                    td=document.createElement("td");
                                     for(let i=0;i<metodo[1];i++){
-                                        td=document.createElement("td");
                                         input=document.createElement("input");
                                         input.type="text";
                                         input.name=metodo[0];
                                         td.appendChild(input);
-                                        tr.appendChild(td);
                                     }
+                                    tr.appendChild(td);
                                     Botones.appendChild(tr);
                                     let cont=0;
                                     for(inp of document.getElementsByName(metodo[0])){

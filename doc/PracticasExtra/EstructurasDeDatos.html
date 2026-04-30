@@ -97,10 +97,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     left:50%;
                     bottom:44dvh;
                     border:2px solid black;
-                    padding:10px;
+                    padding-top:10px;
+                    padding-left:30px;
+                    padding-bottom:30px;
                     border-radius:10px;
+                    line-height:25px;
                     transform:translate(-50%,0%);
                     font-family:Verdana,Geneva,Tahoma,sans-serif;
+                    overflow-y:scroll;
                 }
                 & #Pregunta{
                     position:absolute;
@@ -147,7 +151,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 }
                 #tablaBotones{
                     position:absolute;
-                    width:60dvw;
+                    width:85dvw;
                     height:30dvh;
                     top:57%;
                     left:50%;
@@ -164,6 +168,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             height:100%;
                             margin-right:2px;
                             border-radius:10px;
+                            font-size:1.2rem;
                         }
                         & .Obligatorio{
                             background-color:yellow;
@@ -172,7 +177,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             background-color:white;
                         }
                         & .Error{
-                            width:30%;
+                            width:35%;
                             color:red;
                         }
                     }
@@ -224,7 +229,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </div>
             </div>
         </div>
-        <h2 class="Invisible">SALIDA:</h2>
+        <h2 id="h2Salida" class="Invisible">SALIDA:</h2>
         <div id="Salida" class="Invisible"></div>
         <table id="tablaBotones">
             <tbody id="Botones"></tbody>
@@ -242,6 +247,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </footer>
         <script>
+            function LimpiarPantalla(){
+                Arrai=new Array();
+                Conjunto=new Set();
+                Mapa=new Map();
+                Imagen.setAttribute("class","Invisible");
+                Salida.setAttribute("class","Invisible");
+                h2Salida.setAttribute("class","Invisible");
+                while(Botones.getElementsByTagName("tr").length!=0){
+                    Botones.removeChild(Botones.getElementsByTagName("tr")[0]);
+                }
+            }
             function BorrarInput(name){
                 for(input of document.getElementsByName(name)){
                     input.value="";
@@ -296,7 +312,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     AgregarError("POP",mensaje);
                 }
                 else{
-                    AgregarSalida("[POP]-Se eliminó el elemento "+Arrai[(Arrai.length-1)]+".");
+                    AgregarSalida("[POP]-Se eliminó el elemento '"+Arrai[(Arrai.length-1)]+"'.");
                     Arrai.pop();
                     DibujarArray();
                 }
@@ -312,13 +328,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     AgregarError("SHIFT",mensaje);
                 }
                 else{
-                    AgregarSalida("[SHIFT]-Se eliminó el elemento "+Arrai[0]+".");
+                    AgregarSalida("[SHIFT]-Se eliminó el elemento '"+Arrai[0]+"'.");
                     Arrai.shift();
                     DibujarArray();
                 }
             }
             function accionUnshift(){
-                inputs=document.getElementsByName("UNSHIFT")[0].value;
+                let inputs=document.getElementsByName("UNSHIFT")[0].value;
                 let correcto=true,mensaje;
                 BorrarError("UNSHIFT");
                 if(inputs=="" && correcto){
@@ -335,16 +351,131 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 }
             }
             function accionIncludes(){
-                inputs=document.getElementsByName("INCLUDES")[0].value;
-                let correcto=true;
+                let elemento=document.getElementsByName("INCLUDES")[0].value;
+                let posicion=document.getElementsByName("INCLUDES")[1].value;
+                let correcto=true,mensaje;
                 BorrarError("INCLUDES");
+                if(elemento=="" && correcto){
+                    correcto=false;
+                    mensaje="No debes dejar los campos en amarillo vacios.";
+                }
+                if(!correcto){
+                    AgregarError("INCLUDES",mensaje);
+                }
+                else{
+                    if(Arrai.includes(elemento,posicion)){
+                        AgregarSalida("[INCLUDES]-El elemento '"+elemento+"' está en el array.");
+                    }
+                    else{
+                        AgregarSalida("[INCLUDES]-El elemento '"+elemento+"' no está en el array");
+                    }
+                    BorrarInput("INCLUDES");
+                }
             }
             function accionReverse(){
                 Arrai.reverse();
                 DibujarArray();
             }
-            function accionSlice(){}
-            function accionSplice(){}
+            function accionSlice(){
+                let posIni=document.getElementsByName("SLICE")[0].value;
+                let posFin=document.getElementsByName("SLICE")[1].value;
+                BorrarError("SLICE");
+                let correcto=true,copia,mensaje="NULL",sonEnteros=true;
+                if(posIni==""){
+                    posIni=undefined;
+                    sonEnteros=false;
+                }
+                else{
+                    if(isNaN(posIni) ||(!isNaN(posIni) && posIni.includes("."))){
+                        correcto=false;
+                        sonEnteros=false;
+                        mensaje="El primer campo debe ser un numero entero.";
+                    }
+                }
+                if(posFin==""){
+                    posFin=undefined;
+                    sonEnteros=false;
+                }
+                else{
+                    if(isNaN(posFin) || (!isNaN(posFin) && posFin.includes("."))){
+                        correcto=false;
+                        sonEnteros=false;
+                        mensaje="El segundo campo debe ser un numero entero.";
+                    }
+                }
+                if(correcto && sonEnteros){
+                    if(Number(posIni)>=Number(posFin)){
+                        correcto=false;
+                        mensaje="El valor del primer campo debe ser menor que el del segundo campo.";
+                    }
+                }
+                if(correcto && Number(posIni)>=Arrai.length){
+                    correcto=false;
+                    mensaje="El primero campo debe tener un valor menor, no hay tantos elementos.";
+                }
+                if(correcto && Number(posFin)>Arrai.length){
+                    correcto=false;
+                    mensaje="El segundo campo debe tener un valor menor, no hay tantos elementos.";
+                }
+                if(!correcto){
+                    AgregarError("SLICE",mensaje);
+                }
+                else{
+                    copia=Arrai.slice(posIni,posFin);
+                    AgregarSalida("[SLICE]-Los elementos copiados son "+copia+".");
+                }
+                BorrarInput("SLICE");
+            }
+            function accionSplice(){
+                let posicion=document.getElementsByName("SPLICE")[0].value;
+                let eliminados=document.getElementsByName("SPLICE")[1].value;
+                let anadidos=document.getElementsByName("SPLICE")[2].value.split(",");
+                let mensaje,correcto=true,A="";
+                BorrarError("SPLICE");
+                eliminados=="" ? eliminados=undefined:null;
+                  anadidos=="" ?   anadidos=undefined:null;
+                if(posicion=="" && correcto){
+                    correcto=false;
+                    mensaje="No debes dejar los campos en amarillo vacios.";
+                }
+                if((isNaN(Number(posicion)) || (!isNaN(Number(posicion)) && posicion.includes("."))) && correcto){
+                    correcto=false;
+                    mensaje="El primer campo debe ser un numero entero.";
+                }
+                if(eliminados!=undefined && correcto){
+                    if(isNaN(Number(eliminados)) ||(!isNaN(Number(eliminados)) && posicion.includes("."))){
+                        correcto=false;
+                        mensaje="El segundo campo debe ser un numero entero.";
+                    }
+                }
+                if(!correcto){
+                    AgregarError("SPLICE",mensaje);
+                }
+                else{
+                    if(eliminados==undefined){
+                        if(anadidos!=undefined){
+                            for(elemento of anadidos){
+                                Arrai.splice(posicion,eliminados,elemento);
+                                posicion=posicion+1;
+                            }
+                        }
+                        else{
+                            Arrai.splice(posicion,eliminados,undefined);
+                        }
+                    }
+                    else{
+                        AgregarSalida("[SPLICE]-Los elementos eliminados son "+Arrai.splice(posicion,eliminados,undefined)+".");
+                    }
+                    if(anadidos!=undefined){
+                        for(elemento of anadidos){
+                            Arrai.splice(posicion,undefined,elemento);
+                            posicion=posicion+1;
+                        }
+                    }
+                }
+                DibujarArray();
+                BorrarInput("SPLICE");
+            }
             function DibujarArray(){
                 const trPosicion=document.getElementById("trPosicion");
                 const trValor=document.getElementById("trValor");
@@ -388,13 +519,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         div.appendChild(input);                 
                     }
                     else{
+                        boton=true;
                         switch(estructura){
                             case "Array":
                                 Arrai.push(document.getElementById("Datos").value);
                                 Cuerpo.removeChild(div);
                                 Imagen.setAttribute("class","Visible");
                                 Salida.setAttribute("class","Visible");
-                                document.getElementsByTagName("h2")[0].setAttribute("class","Visible");
+                                h2Salida.setAttribute("class","Visible");
                                 DibujarArray();
                                 let Nombres=[
                                     ["PUSH"    ,1,accionPush    ,[true]             ],
@@ -455,11 +587,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             const Imagen=document.getElementById("Imagen");
             const Botones=document.getElementById("Botones");
             const Salida=document.getElementById("Salida");
+            const h2Salida=document.getElementById("h2Salida");
             var boton=true;
             var Arrai=new Array();
             var Conjunto=new Set();
             var Mapa=new Map();
             Arrays.addEventListener("click",()=>{
+                LimpiarPantalla();
                 if(boton){
                     boton=false;
                     PeticionDeDatos("Introduzca el primer valor del Array:","Array");
@@ -467,11 +601,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 }
             });
             Conjuntos.addEventListener("click",()=>{
+                LimpiarPantalla();
                 if(boton){
                     boton=false;
                 }
             });
             Mapas.addEventListener("click",()=>{
+                LimpiarPantalla();
                 if(boton){
                     boton=false;
                 }

@@ -516,7 +516,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 }
                 else{
                     if(eliminados!=undefined){
-                        eliminados==Arrai.length ? null : AgregarSalida("[--ARRAY---][SPLICE]-Los elementos eliminados son "+Arrai.splice(posicion,eliminados)+".");
+                        eliminados>Arrai.length ? null : AgregarSalida("[--ARRAY---][SPLICE]-Los elementos eliminados son "+Arrai.splice(posicion,eliminados)+".");
                     }
                     if(anadidos!=undefined){
                         console.log(anadidos);
@@ -611,6 +611,116 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 }
                 else{
                     AgregarSalida("[CONJUNTO][SIZE]-El conjunto tiene "+Conjunto.size+" elementos.");
+                }
+            }
+            function accionSet(){
+                const clave=document.getElementsByName("SET")[0].value;
+                const valor=document.getElementsByName("SET")[1].value;
+                let correcto=true,mensaje;
+                BorrarError("SET");
+                if(clave=="" && correcto){
+                    mensaje="No debes dejar el primer campo en amarillo vacio.";
+                    correcto=false;
+                }
+                if(valor=="" && correcto){
+                    mensaje="No debes dejar el segundo campo en amarillo vacio.";
+                    correcto=false;
+                }
+                if(!correcto){
+                    AgregarError("SET",mensaje);
+                }
+                else{
+                    Mapa.set(clave,valor);
+                    DibujarMapa();
+                }
+                BorrarInput("SET");
+            }
+            function accionGet(){
+                const clave=document.getElementsByName("GET")[0].value;
+                let correcto=true,mensaje;
+                BorrarError("GET");
+                if(clave=="" && correcto){
+                    mensaje="No debes dejar los campos en amarillo vacios.";
+                    correcto=false;
+                }
+                if(!correcto){
+                    AgregarError("GET",mensaje);
+                }
+                else{
+                    if(Mapa.get(clave)==undefined){
+                        AgregarSalida("[---MAPA---][GET]-El elemento con clave "+clave+" no está en el mapa.")
+                    }
+                    else{
+                        AgregarSalida("[---MAPA---][GET]-El elemento con clave "+clave+" está en el mapa y tiene el valor "+Mapa.get(clave));
+                    }
+                }
+                BorrarInput("GET");
+            }
+            function accionDeleteMapa(){
+                const clave=document.getElementsByName("DELETE")[0].value;
+                let correcto=true,mensaje;
+                BorrarError("DELETE");
+                if(clave=="" && correcto){
+                    mensaje="No debes dejar los campos en amarillo vacios.";
+                    correcto=false;
+                }
+                if(!correcto){
+                    AgregarError("DELETE",mensaje);
+                }
+                else{
+                    if(Mapa.delete(clave)){
+                        AgregarSalida("[---MAPA---][DELETE]-Se eliminó el elemento con clave "+clave+" del mapa.");
+                        DibujarMapa();
+                    }
+                    else{
+                        AgregarSalida("[---MAPA---][DELETE]-No se eliminó el elemento con clave "+clave+" porque no existe dicho elemento.");
+                    }
+                }
+                BorrarInput("DELETE");
+            }
+            function accionClearMapa(){
+                let correcto=true,mensaje;
+                BorrarError("CLEAR");
+                if(Mapa.size==0 && correcto){
+                    mensaje="Ya no quedan más elementos en el mapa.";
+                    correcto=false;
+                }
+                if(!correcto){
+                    AgregarError("CLEAR",mensaje);
+                }
+                else{
+                    Mapa.clear();
+                    AgregarSalida("[---MAPA---][CLEAR]-Se eliminaron todos los elemntos.");
+                    DibujarMapa();
+                }
+            }
+            function accionHasMapa(){
+                const clave=document.getElementsByName("HAS")[0].value;
+                let correcto=true,mensaje;
+                BorrarError("HAS");
+                if(clave=="" && correcto){
+                    mensaje="No debes dejar los campos en amarillo vacios.";
+                    correcto=false;
+                }
+                if(!correcto){
+                    AgregarError("HAS",mensaje);
+                }
+                else{
+                    if(Mapa.has(clave)){
+                        AgregarSalida("[---MAPA---][HAS]-El elemento con clave "+clave+" esta en el mapa.");
+                    }
+                    else{
+                        AgregarSalida("[---MAPA---][HAS]-El elemento con clave "+clave+" no está en el mapa.")
+                    }
+                }
+                BorrarInput("HAS");
+            }
+            function accionSizeMapa(){
+                if(Mapa.size==1){
+                    AgregarSalida("[---MAPA---][SIZE]-El mapa tiene "+Mapa.size+" elemento.");
+                }
+                else{
+                    AgregarSalida("[---MAPA---][SIZE]-El mapa tiene "+Mapa.size+" elementos.");
                 }
             }
             function DibujarArray(){
@@ -745,32 +855,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                 Arrai.push(document.getElementById("DatosValor").value);
                                 DibujarArray();
                                 Nombres=[
-                                    ["PUSH"    ,1,accionPush    ,[true]             ],
-                                    ["POP"     ,0,accionPop     ,[]                 ],
-                                    ["SHIFT"   ,0,accionShift   ,[]                 ],
-                                    ["UNSHIFT" ,1,accionUnshift ,[true]             ],
-                                    ["INCLUDES",2,accionIncludes,[true ,false]      ],
-                                    ["REVERSE" ,0,accionReverse ,[]                 ],
-                                    ["SLICE"   ,2,accionSlice   ,[false,false]      ],
-                                    ["SPLICE"  ,3,accionSplice  ,[true ,false,false]]
+                                    ["PUSH"    ,1,accionPush    ,[true]             ,["Elemento a añadir"]                                                     ],
+                                    ["POP"     ,0,accionPop     ,[]                 ,[]                                                                        ],
+                                    ["SHIFT"   ,0,accionShift   ,[]                 ,[]                                                                        ],
+                                    ["UNSHIFT" ,1,accionUnshift ,[true]             ,["Elemento a añadir"]                                                     ],
+                                    ["INCLUDES",2,accionIncludes,[true ,false]      ,["Elemento a buscar","Posición inicial"]                                  ],
+                                    ["REVERSE" ,0,accionReverse ,[]                 ,[]                                                                        ],
+                                    ["SLICE"   ,2,accionSlice   ,[false,false]      ,["Posición inicial","Posición final"]                                     ],
+                                    ["SPLICE"  ,3,accionSplice  ,[true ,false,false],["Posicion inicial","Nº de elementos a eliminar","Elementos a añadir"]    ]
                                 ];
                             break;
                             case "Conjunto":
                                 Conjunto.add(document.getElementById("DatosValor").value);
                                 DibujarConjunto();
                                 Nombres=[
-                                    ["ADD"   ,1,accionAdd           ,[true]],
-                                    ["DELETE",1,accionDeleteConjunto,[true]],
-                                    ["CLEAR" ,0,accionClearConjunto ,[]    ],
-                                    ["HAS"   ,1,accionHasConjunto   ,[true]],
-                                    ["SIZE"  ,0,accionSizeConjunto  ,[]    ]
+                                    ["ADD"   ,1,accionAdd           ,[true],["Elemento a añadir"]  ],
+                                    ["DELETE",1,accionDeleteConjunto,[true],["Elemento a eliminar"]],
+                                    ["CLEAR" ,0,accionClearConjunto ,[]    ,[]                     ],
+                                    ["HAS"   ,1,accionHasConjunto   ,[true],["Elemento a buscar"]  ],
+                                    ["SIZE"  ,0,accionSizeConjunto  ,[]    ,[]                     ]
                                 ];
                             break;
                             case "Mapa":
                                 Mapa.set(document.getElementById("DatosClave").value,document.getElementById("DatosValor").value);
                                 DibujarMapa();
                                 Nombres=[
-                                    /*["SET",2,"",[true,true]]*/
+                                    ["SET"   ,2,accionSet       ,[true,true],["Clave del elemento","Valor del elemento"]],
+                                    ["GET"   ,1,accionGet       ,[true]     ,["Elemento a buscar"]                      ],
+                                    ["DELETE",1,accionDeleteMapa,[true]     ,["Elemento a eliminar"]                    ],
+                                    ["CLEAR" ,0,accionClearMapa ,[]         ,[]                                         ],
+                                    ["HAS"   ,1,accionHasMapa   ,[true]     ,["Elemento a buscar"]                      ],
+                                    ["SIZE"  ,0,accionSizeMapa  ,[]         ,[]                                         ]
                                 ];
                             break;
                         }
@@ -792,6 +907,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                 input=document.createElement("input");
                                 input.type="text";
                                 input.name=metodo[0];
+                                input.placeholder=metodo[4][i];
                                 td.appendChild(input);
                             }
                             tr.appendChild(td);

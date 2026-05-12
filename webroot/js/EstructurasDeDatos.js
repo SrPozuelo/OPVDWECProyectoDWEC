@@ -171,6 +171,10 @@ function accionSlice(){
         correcto=false;
         mensaje="El segundo campo debe tener un valor menor, no hay tantos elementos.";
     }
+    if(Arrai.length==0 && correcto){
+        correcto=false;
+        mensaje="No se pueden copiar elementos porque el array esta vacio.";
+    }
     if(!correcto){
         AgregarError("SLICE",mensaje);
     }
@@ -266,6 +270,7 @@ function accionDeleteConjunto(){
             AgregarSalida("[CONJUNTO][DELETE]-No se eliminó el elemento '"+elemento+"' porque no existe dicho elemento.");
         }
     }
+    BorrarInput("DELETE");
 }
 function accionClearConjunto(){
     let correcto=true,mensaje;
@@ -623,6 +628,10 @@ function PeticionDeDatos(pregunta,estructura){
                     cont=cont+1;
                 }
                 document.getElementById(metodo[0]).addEventListener("click",metodo[2]);
+                document.getElementById(metodo[0]).addEventListener("click",()=>{
+                    Salida.scrollBy(0,10000000000);
+                    Imagen.scrollBy(10000000000,0);
+                });
             }
         }
     });

@@ -409,6 +409,7 @@ body {
 .rejilla-tarjetas {
     display: grid;
     position:relative;
+    top:2.5dvh;
     transform:translate(-37%);
     grid-template-columns: repeat(6,minmax(290px,1fr));
     gap: 1.5rem;

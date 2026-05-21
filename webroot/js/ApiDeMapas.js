@@ -8,18 +8,22 @@ Mapa.addEventListener("mouseup",(ev)=>{
     Marcador.bindPopup("COORDENADAS:"+latitud).openPopup();
 });
 Mapa.addEventListener("click",(ev)=>{
+    MapaClick(ev);
+});
+async function MapaClick(ev) {
     let latitud=L.latLng(ev.latlng);
     Marcador.setLatLng(latitud);
-    let tiempo=PeticionDelTiempo(latitud.lat,latitud.lng,"es");
+    let tiempo=await PeticionDelTiempo(latitud.lat,latitud.lng,"es");
+    console.log("URL: https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+"@2x.png");
     Marcador.bindPopup("COORDENADAS:"+latitud+"<br><img src='https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+"@2x.png'>").openPopup();
-});
+}
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(Mapa);
 async function PeticionDelTiempo(lat,lon,lang) {
     try{
-        const dat=await fetch("https://api.openweathermap.org/data/3.0/onecall?lat="+lat+"&lon="+lon+"&lang="+lang+"&appid=6da345c0105a2ec642615e413e090758");
+        const dat=await fetch("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&lang="+lang+"&appid=6da345c0105a2ec642615e413e090758");
         if(dat.status==200){
             const tiempo=await dat.json();
             respuesta=tiempo;

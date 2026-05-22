@@ -2,20 +2,32 @@ var Mapa=L.map('Imagen').setView([42.003,-5.67],13);
 var Marcador=L.marker([42.003,-5.67]);
 Marcador.options.draggable=true;
 Marcador.addTo(Mapa);
-Mapa.addEventListener("mouseup",(ev)=>{
-    let latitud=L.latLng(ev.latlng);
-    Marcador.setLatLng(latitud);
-    Marcador.bindPopup("COORDENADAS:"+latitud).openPopup();
+document.getElementById("Imagen").addEventListener("contextmenu",(ev)=>{
+    ev.preventDefault();
 });
-Mapa.addEventListener("click",(ev)=>{
+Mapa.addEventListener("mouseup",(ev)=>{
     MapaClick(ev);
 });
-async function MapaClick(ev) {
+async function MapaClick(ev){
     let latitud=L.latLng(ev.latlng);
     Marcador.setLatLng(latitud);
     let tiempo=await PeticionDelTiempo(latitud.lat,latitud.lng,"es");
+    console.log();
+    let desc=tiempo.weather[0].description.substring(0,1).toUpperCase()+tiempo.weather[0].description.substring(1,tiempo.weather[0].description.lenght);
     console.log("URL: https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+"@2x.png");
-    Marcador.bindPopup("COORDENADAS:"+latitud+"<br><img src='https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+"@2x.png'>").openPopup();
+    Marcador.bindPopup(
+        "<div class='Popup'>"+
+            "COORDENADAS:"+latitud+
+            "<div>"+
+                "<img src='https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png'>"+
+            "</div>"+
+            "<p>"+desc+"</p>"+
+            "<button id='Detalles'>VER DETALLES</button>"+
+        "</div>"
+    ).openPopup();
+    document.getElementById("Detalles").addEventListener("click",()=>{
+        console.log("El botón ver detalles fue pulsado con éxito.");
+    });
 }
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -35,7 +47,7 @@ async function PeticionDelTiempo(lat,lon,lang) {
         }
     }
     catch(Error){
-        console.error(Error);
+        Marcador.bindPopup("<span style='color:red;'>No se puede mostrar información de este lugar debido a un error inesperado.</span>").openPopup();
     }
 }
 //https://openweathermap.org/payload/api/media/file/10d@2x.png

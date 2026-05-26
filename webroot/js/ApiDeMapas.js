@@ -18,12 +18,16 @@ async function MapaClick(ev){
     console.log("URL: https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+"@2x.png");
     Marcador.bindPopup(
         "<div class='Popup'>"+
-            "COORDENADAS:"+latitud+
-            "<div>"+
+            "<p>Ciudad:</p>"+
+            "<p>"+tiempo.name+"</p>"+
+            "<p>COORDENADAS:"+latitud+"</p>"+
+            "<div id='divImagen'>"+
                 "<img src='https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png'>"+
             "</div>"+
             "<p>"+desc+"</p>"+
-            "<button id='Detalles'>VER DETALLES</button>"+
+            "<div id='divBoton'>"+
+                "<button id='Detalles'>VER DETALLES</button>"+
+            "</div>"+
         "</div>"
     ).openPopup();
     document.getElementById("Detalles").addEventListener("click",()=>{
@@ -50,23 +54,23 @@ async function MapaClick(ev){
             [
                 "Temperatura mínima:",
                 tiempo.main.temp_min+"ºC"
+            ],
+            [
+                "Sensación térmica:",
+                tiempo.main.feels_like
             ]
         ];
         let Vien=[
             [
-                "Dirrección del viento",
+                "Dirrección del viento:",
                 tiempo.wind.deg+" grados"
             ],
             [
-                "Velocidad del viento",
+                "Velocidad del viento:",
                 tiempo.wind.speed
             ]
         ]
         let otros=[
-            [
-                "Sensación térmica:",
-                tiempo.main.feels_like
-            ],
             [
                 "Humedad:",
                 tiempo.main.humidity+"%"
@@ -79,11 +83,16 @@ async function MapaClick(ev){
         console.log("El botón ver detalles fue pulsado con éxito.");
         Detalles.textContent="";
         CrearEtiqueta("p","Titulo",undefined,undefined,"El tiempo en "+tiempo.name,Detalles);
+        CrearEtiqueta("img",undefined,undefined,"https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png",undefined,Detalles);
         /*------------------------Presión------------------------*/
         CrearEtiqueta("div","Presion","Recuadro",undefined,undefined,Detalles);
         const Presion=document.getElementById("Presion");
-        CrearEtiqueta("table","tablaPresion",undefined,undefined,undefined,Detalles);
-        tabla=document.getElementById("tablaPresion")[0];
+        CrearEtiqueta("table","tablaPresion",undefined,undefined,undefined,Presion);
+        tabla=document.getElementById("tablaPresion");
+        CrearEtiqueta("thead",undefined,undefined,undefined,undefined,tabla);
+        thead=tabla.getElementsByTagName("thead")[0];
+        CrearEtiqueta("th",undefined,undefined,undefined,"PRESIÓN",thead);
+        thead.getElementsByTagName("th")[0].setAttribute("colspan","2");
         CrearEtiqueta("tbody",undefined,undefined,undefined,undefined,tabla);
         tbody=tabla.getElementsByTagName("tbody")[0];
         for(const dato of Pres){
@@ -95,8 +104,12 @@ async function MapaClick(ev){
         /*----------------------Temperatura----------------------*/
         CrearEtiqueta("div","Temperatura","Recuadro",undefined,undefined,Detalles);
         const Temperatura=document.getElementById("Temperatura");
-        CrearEtiqueta("table","tablaTemperaturas",undefined,undefined,undefined,Detalles);
+        CrearEtiqueta("table","tablaTemperaturas",undefined,undefined,undefined,Temperatura);
         tabla=document.getElementById("tablaTemperaturas");
+        CrearEtiqueta("thead",undefined,undefined,undefined,undefined,tabla);
+        thead=tabla.getElementsByTagName("thead")[0];
+        CrearEtiqueta("th",undefined,undefined,undefined,"TEMPERATURA",thead);
+        thead.getElementsByTagName("th")[0].setAttribute("colspan","2");
         CrearEtiqueta("tbody",undefined,undefined,undefined,undefined,tabla);
         tbody=tabla.getElementsByTagName("tbody")[0];
         for(const dato of Temp){
@@ -105,9 +118,32 @@ async function MapaClick(ev){
             CrearEtiqueta("td",undefined,undefined,undefined,dato[0],tr);
             CrearEtiqueta("td",undefined,undefined,undefined,dato[1],tr);
         }
+        /*------------------------Viento-------------------------*/
+        CrearEtiqueta("div","Viento","Recuadro",undefined,undefined,Detalles);
+        const Viento=document.getElementById("Viento");
+        CrearEtiqueta("table","tablaViento",undefined,undefined,undefined,Viento);
+        tabla=document.getElementById("tablaViento");
+        CrearEtiqueta("thead",undefined,undefined,undefined,undefined,tabla);
+        thead=tabla.getElementsByTagName("thead")[0];
+        CrearEtiqueta("th",undefined,undefined,undefined,"VIENTO",thead);
+        thead.getElementsByTagName("th")[0].setAttribute("colspan","2");
+        CrearEtiqueta("tbody",undefined,undefined,undefined,undefined,tabla);
+        tbody=tabla.getElementsByTagName("tbody")[0];
+        for(const dato of Vien){
+            CrearEtiqueta("tr",undefined,undefined,undefined,undefined,tbody);
+            tr=tbody.getElementsByTagName("tr")[(tbody.getElementsByTagName("tr").length-1)];
+            CrearEtiqueta("td",undefined,undefined,undefined,dato[0],tr);
+            CrearEtiqueta("td",undefined,undefined,undefined,dato[1],tr);
+        }
         /*-------------------------Otros-------------------------*/
-        CrearEtiqueta("table","tablaOtros",undefined,undefined,undefined,Detalles);
-        tabla=Detalles.getElementById("tablaOtros");
+        CrearEtiqueta("div","Otros","Recuadro",undefined,undefined,Detalles);
+        const Otros=document.getElementById("Otros");
+        CrearEtiqueta("table","tablaOtros",undefined,undefined,undefined,Otros);
+        tabla=document.getElementById("tablaOtros");
+        CrearEtiqueta("thead",undefined,undefined,undefined,undefined,tabla);
+        thead=tabla.getElementsByTagName("thead")[0];
+        CrearEtiqueta("th",undefined,undefined,undefined,"OTROS DETALLES",thead);
+        thead.getElementsByTagName("th")[0].setAttribute("colspan","2");
         CrearEtiqueta("tbody",undefined,undefined,undefined,undefined,tabla);
         tbody=tabla.getElementsByTagName("tbody")[0];
         for(const dato of otros){
@@ -116,7 +152,6 @@ async function MapaClick(ev){
             CrearEtiqueta("td",undefined,undefined,undefined,dato[0],tr);
             CrearEtiqueta("td",undefined,undefined,undefined,dato[1],tr);
         }
-        CrearEtiqueta("img",undefined,undefined,"https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png",undefined,Detalles);
     });
 }
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

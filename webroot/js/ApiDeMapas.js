@@ -1,5 +1,22 @@
-var Mapa=L.map('Imagen').setView([42.003,-5.67],13);
-var Marcador=L.marker([42.003,-5.67]);
+function obtenerLatitud(pos){
+    return pos.coords.latitude;
+}
+function obtenerLonguitud(pos){
+    console.log("Longitud"+pos.coords.longitude);
+    return pos.coords.longitude;
+}
+let latid;
+let longi;
+if(navigation.geolocation){
+    latid=navigator.geolocation.getCurrentPosition(obtenerLatitud);
+    longi=navigator.geolocation.getCurrentPosition(obtenerLonguitud);
+}
+else{
+    latid=42.003;
+    longi=-5.67;
+}
+var Mapa=L.map('Imagen').setView([latid,longi],13);
+var Marcador=L.marker([latid,longi]);
 var Detalles=document.getElementById("VentanaDetalles");
 Marcador.options.draggable=true;
 Marcador.addTo(Mapa);
@@ -20,7 +37,6 @@ async function MapaClick(ev){
         "<div class='Popup'>"+
             "<p>Ciudad:</p>"+
             "<p>"+tiempo.name+"</p>"+
-            "<p>COORDENADAS:"+latitud+"</p>"+
             "<div id='divImagen'>"+
                 "<img src='https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png'>"+
             "</div>"+
@@ -31,6 +47,7 @@ async function MapaClick(ev){
         "</div>"
     ).openPopup();
     document.getElementById("Detalles").addEventListener("click",()=>{
+        Detalles.style="display:block;";
         let tabla,tbody,tr;
         let Pres=[
             [
@@ -83,6 +100,7 @@ async function MapaClick(ev){
         console.log("El botón ver detalles fue pulsado con éxito.");
         Detalles.textContent="";
         CrearEtiqueta("p","Titulo",undefined,undefined,"El tiempo en "+tiempo.name,Detalles);
+        CrearEtiqueta("p","Coordenadas",undefined,undefined,("COORDENADAS:"+latitud),Detalles);
         CrearEtiqueta("img",undefined,undefined,"https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png",undefined,Detalles);
         /*------------------------Presión------------------------*/
         CrearEtiqueta("div","Presion","Recuadro",undefined,undefined,Detalles);

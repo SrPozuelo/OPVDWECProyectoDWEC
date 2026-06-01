@@ -7,11 +7,13 @@ function obtenerLonguitud(pos){
 }
 let latid;
 let longi;
-if(navigation.geolocation){
+console.log("Geolocalización: "+navigator.geolocation);
+if(navigator.geolocation!=undefined){
     latid=navigator.geolocation.getCurrentPosition(obtenerLatitud);
     longi=navigator.geolocation.getCurrentPosition(obtenerLonguitud);
 }
 else{
+    CrearEtiqueta("div","Geolocalizacion",undefined,undefined,"Ciertas funciones no van a funcionar correctamente debido a que tienes la geolocalización desactivada.",document.getElementById("Cuerpo"));
     latid=42.003;
     longi=-5.67;
 }
@@ -35,14 +37,14 @@ async function MapaClick(ev){
     console.log("URL: https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+"@2x.png");
     Marcador.bindPopup(
         "<div class='Popup'>"+
-            "<p>Ciudad:</p>"+
-            "<p>"+tiempo.name+"</p>"+
+            "<p id='Margen'>Ciudad:</p>"+
+            "<p id='Margen'>"+tiempo.name+"</p>"+
             "<div id='divImagen'>"+
-                "<img src='https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png'>"+
+                "<img src='https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png' id='Margen' draggable='false'>"+
             "</div>"+
-            "<p>"+desc+"</p>"+
-            "<div id='divBoton'>"+
-                "<button id='Detalles'>VER DETALLES</button>"+
+            "<p id='Margen'>"+desc+"</p>"+
+            "<div id='divBoton' id='Margen'>"+
+                "<button id='Detalles' id='Margen'>VER DETALLES</button>"+
             "</div>"+
         "</div>"
     ).openPopup();
@@ -100,8 +102,8 @@ async function MapaClick(ev){
         console.log("El botón ver detalles fue pulsado con éxito.");
         Detalles.textContent="";
         CrearEtiqueta("p","Titulo",undefined,undefined,"El tiempo en "+tiempo.name,Detalles);
-        CrearEtiqueta("p","Coordenadas",undefined,undefined,("COORDENADAS:"+latitud),Detalles);
         CrearEtiqueta("img",undefined,undefined,"https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+".png",undefined,Detalles);
+        Detalles.getElementsByTagName("img")[0].setAttribute("draggable","false");
         /*------------------------Presión------------------------*/
         CrearEtiqueta("div","Presion","Recuadro",undefined,undefined,Detalles);
         const Presion=document.getElementById("Presion");

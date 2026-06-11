@@ -32,17 +32,37 @@ function mapa(latid,longi){
     Marcador.options.draggable=true;
     Marcador.addTo(Mapa);
     var Detalles=document.getElementById("VentanaDetalles");
+    var coor=0;
     document.getElementById("Imagen").addEventListener("contextmenu",(ev)=>{
         ev.preventDefault();
     });
-    Mapa.addEventListener("mouseup",(ev)=>{
-        MapaClick(ev);
+    Mapa.addEventListener("click",(ev)=>{
+        MapaClick(ev,undefined);
     });
-    async function MapaClick(ev){
-        let latitud=L.latLng(ev.latlng);
+    Marcador.addEventListener("moveend",(ev)=>{
+        MapaClick(ev,coor);
+        console.log("ARRASTRE.");
+    });
+    Marcador.addEventListener("mouseup",(ev)=>{
+        coor=ev.latlng;
+    });
+    Mapa.addEventListener("dragover",(ev)=>{
+        ev.preventDefault();
+    });
+    Marcador.addEventListener("dragover",(ev)=>{
+        ev.preventDefault();
+    });
+    async function MapaClick(ev,coor){
+        console.log("CLICK EN MAPA.")
+        let latitud;
+        if(coor==undefined){
+            latitud=L.latLng(ev.latlng);
+        }
+        else{
+            latitud=coor;
+        }
         Marcador.setLatLng(latitud);
         let tiempo=await PeticionDelTiempo(latitud.lat,latitud.lng,"es");
-        console.log();
         let desc=tiempo.weather[0].description.substring(0,1).toUpperCase()+tiempo.weather[0].description.substring(1,tiempo.weather[0].description.lenght);
         console.log("URL: https://openweathermap.org/payload/api/media/file/"+tiempo.weather[0].icon+"@2x.png");
         Marcador.bindPopup(
@@ -57,8 +77,10 @@ function mapa(latid,longi){
                     "<button id='Detalles' id='Margen'>VER DETALLES</button>"+
                 "</div>"+
             "</div>"
+
         ).openPopup();
-        document.getElementById("Detalles").addEventListener("click",()=>{
+        document.getElementById("Detalles").addEventListener("click",(ev)=>{
+            console.log("CLICK EN BOTÓN.")
             Detalles.style="display:block;";
             let tabla,tbody,tr;
             let Pres=[

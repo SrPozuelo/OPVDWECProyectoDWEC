@@ -1,7 +1,3 @@
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,8 +7,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link rel="stylesheet" href="../../webroot/css/fonts.css">
         <link rel="stylesheet" href="../../webroot/css/all.min.css">
         <link rel="stylesheet" href="../../webroot/css/estilos.css">
-        <link rel="stylesheet" href="../../webroot/css/estilosEstructurasDeDatos.css">
-        <title>Estructura de datos</title>
+        <link rel="stylesheet" href="../../webroot/css/estilosApiDeMapas.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script defer src="../../webroot/js/ApiDeMapas.js"></script>
+        <title>Api de mapas</title>
     </head>
     <body id="Cuerpo">
         <header class="cabecera-principal">
@@ -26,33 +25,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </div>
             </div>
         </header>
-        <nav>
-            <input type="button" value="ARRAYS" id="Arrays">
-            <input type="button" value="CONJUNTOS" id="Conjuntos">
-            <input type="button" value="MAPAS" id="Mapas">
-        </nav>
-        <div id="Imagen" class="Invisible">
-            <div id="InteriorImagen">
-                <div id="tablaImagen" class="Invisible">
-                    <div id="trPosicion">
-                        <p>POSICIÓN</p>
-                    </div>
-                    <div id="trValor">
-                        <p>VALOR</p>
-                    </div>
-                </div>
+        <main>
+            <div id="Imagen"></div>
+            <div id="VentanaDetalles">
+                <p id="Titulo">NINGUNA UBICACIÓN SELECCIONADA AÚN</p>
             </div>
-        </div>
-        <h2 id="h2Salida" class="Invisible">SALIDA:</h2>
-        <div id="Salida" class="Invisible"></div>
-        <table id="tablaBotones">
-            <tbody id="Botones"></tbody>
-        </table>
+        </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">
                 <div class="texto-legal">
                     <p>2025-26 IES LOS SAUCES. ©Todos los derechos reservados.</p>
-                    <p class="autor"><a href="https://oscarpozvil.ieslossauces.es">Óscar Pozuelo Villamandos.</a> Fecha de Actualización: 23-02-2026</p>
+                    <p class="autor"><a href="https://oscarpozvil.ieslossauces.es">Óscar Pozuelo Villamandos.</a> Fecha de Actualización: 18-05-2026</p>
                 </div>
                 <div class="iconos-footer">
                     <a href="https://github.com/SrPozuelo/OPVDWECProyectoDWEC" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -60,6 +43,5 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </div>
             </div>
         </footer>
-        <script src="../../webroot/js/EstructurasDeDatos.js"></script>
     </body>
 </html>
